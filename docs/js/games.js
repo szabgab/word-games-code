@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    const url = "http://word-games-data.szabgab.com/hu.json";
+    const url = "https://word-games-data.szabgab.com/hu.json";
     let game_data = {};
     $('#stop').hide();
 
