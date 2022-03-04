@@ -1,8 +1,13 @@
 $(document).ready(function(){
-    const url = "https://word-games-data.szabgab.com/hu.json";
+    const base_url = "https://word-games-data.szabgab.com/";
+    let config = {
+        "language": "en"
+    }
+    let games = {}
     let game_data = {};
-    $('#stop').hide();
-
+    $('.page').hide();
+    $('#mainPage').show();
+ 
     let keyboards = {
         "en": [
             "qwertyuiop",
@@ -23,12 +28,32 @@ $(document).ready(function(){
         ]
     }
 
+    const loadSiteConfig = function() {
+        $.getJSON(base_url + "games.json", function(data){
+            games = data;
+            // console.log(games);
+            loadGame("hangman", games[config["language"]]["file"])
+        }).fail(function(){
+            console.log("An error has occurred.");
+        });    
+    };
 
-    const startGame = function() {
-        console.log("startGame");
-        $('#start').hide();
-        $('#stop').show();
-        $('#game').show();
+    const loadGame = function(game, filename) {
+        const url = base_url + game + "/" + filename;
+        $.getJSON(url, function(data){
+            game_data = data;
+            console.log(game_data);
+            //$("#output").html("Loaded");
+        }).fail(function(){
+            //$("#output").html('Error');
+            console.log("An error has occurred.");
+        });
+    };
+
+    const start_game = function() {
+        console.log("start_game");
+        $('.page').hide();
+        $('#gamePage').show();
         //console.log(game_data);
         let categories = Object.keys(game_data);
         let category_index = Math.floor(Math.random() * categories.length);
@@ -42,7 +67,7 @@ $(document).ready(function(){
 
         let html = "";
         for (let ix = 0; ix < word.length; ix++) {
-            html += `<button class="button" id="button_${ix}"> </button>`;
+            html += `<button class="button letter" id="button_${ix}"></button>`;
         }
         // console.log(html);
         $("#word").html(html);
@@ -79,28 +104,62 @@ $(document).ready(function(){
                 used_letters.push(char);
             }
         });
-        // when all the word was matched, the user wins
-        // if 8 bad letters, the game is over (allow this to be language specific)
+        // TODO: When the user first loads the page we set the default language and default game
+        // TODO: allow the user to switch language
+        // TODO: allow the user to switch game (available for the given language)
+        // TODO: when all the word was matched, the user wins
+        // TODO: if the user runs out of money, the game is over
     };
-
-    const stopGame = function() {
-        console.log("endGame");
-        $('#start').show();
-        $('#stop').hide();
-        $('#game').hide();
+ 
+    const stop_game = function() {
+        $('.page').hide();
+        $('#mainPage').show();
         $( "html" ).off("keypress");
     };
 
-    $.getJSON(url, function(data){
-        game_data = data;
-        console.log(game_data);
-        //$("#output").html("Loaded");
-    }).fail(function(){
-        //$("#output").html('Error');
-        console.log("An error has occurred.");
-    });
+
+    const show_config = function() {
+        $('.page').hide();
+
+        let language_options = "";
+        let languages = Object.keys(games);
+        for (let ix=0; ix < languages.length; ix++) {
+            let language_id = languages[ix];
+            language_options += `<option value="${language_id}" `;
+            language_options += (language_id == config["language"] ? "selected" : "");
+            language_options += `>${games[language_id]["name"]}</option>`;
+        }
+        // console.log(language_options);
+        $("#language_selector").html(language_options);
+
+        $('#configPage').show();
+    };
+
+    const save_config = function() {
+        const language_id = $("#language_selector option:selected").val();
+        // console.log(language_id);
+        config["language"] = language_id;
+        save_local_config();
+        $('.page').hide();
+        $('#mainPage').show(); 
+    };
+
+    const load_local_config = function() {
+        let config_str = localStorage.getItem('word_games');
+        if (config_str !== null) {
+            config = JSON.parse(config_str);
+        }
+    };
+
+    const save_local_config = function() {
+        localStorage.setItem('word_games', JSON.stringify(config));
+    };
 
 
-    $('#start').click(startGame);
-    $('#stop').click(stopGame);
+    load_local_config();
+    loadSiteConfig();
+    $('#start_game').click(start_game);
+    $('#stop_game').click(stop_game);
+    $('#show_config').click(show_config);
+    $('#save_config').click(save_config);
 });

@@ -7,20 +7,31 @@
     <title>Word Games</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script src="https://use.fontawesome.com/57525b30bb.js"></script>
     <script src="js/games.js"></script>
   </head>
   <body>
     <section class="section">
-      <div class="container">
+      <div class="container page" id="mainPage">
         <h1 class="title"><a href="https://librelingo.app/">Word Games</a></h1>
+        <button class="button" id="start_game">Start</button>
+        <button class="button" id="show_config"><span class="icon fa-solid fa-gear"></span></button>
+      </div>
 
-        <button class="button" id="start">Start</button>
-        <button class="button" id="stop">Stop</button>
-        <div id="game">
+      <div class="container page" id="configPage">
+        <div class="select">
+          <select id="language_selector">
+          </select>  
+        </div>
+        <button class="button" id="save_config">Save</button>
+      </div>
+
+      <div class="container page" id="gamePage">
+          <button class="button" id="stop_game">Stop</button>
+          <button class="button" id="hint">Hint</button>
           <div id="category"></div>
           <div id="word"></div>
           <div id="wrong_letters"></div>
-        </div>
       </div>
     </section>
   </body>
