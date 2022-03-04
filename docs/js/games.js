@@ -58,7 +58,7 @@ $(document).ready(function(){
         let words = game_data[category];
         let word_index = Math.floor(Math.random() * words.length);
         let word = words[word_index];
-        // console.log(word);
+        console.log(word);
         return [category, word.split("")];
     }
 
@@ -66,8 +66,11 @@ $(document).ready(function(){
         console.log("start_game");
         $('.page').hide();
         $('#gamePage').show();
+        $('#message').html("")
+
         //console.log(game_data);
         let [category, expected_letters] = generate_word();
+        let matched_letters = [];
         // console.log(category);
         // console.log(expected_letters);
 
@@ -75,6 +78,7 @@ $(document).ready(function(){
 
         let html = "";
         for (let ix = 0; ix < expected_letters.length; ix++) {
+            matched_letters.push("")
             html += `<button class="button letter" id="button_${ix}"></button>`;
         }
         // console.log(html);
@@ -106,7 +110,15 @@ $(document).ready(function(){
                             break
                         }
                         $(`#button_${ix}`).html(char);
+                        matched_letters[ix] = char;
                     }
+                    if (JSON.stringify(expected_letters)==JSON.stringify(matched_letters)) {
+                        $('#message').html("Matched!");
+                        // TODO show the "Next" button
+                        // TODO show the "Home" button
+                        // TODO hide the "Quit" button
+                    }
+
                 }
                 // TODO: if not in the word add bad letters list
                 used_letters.push(char);
@@ -115,6 +127,7 @@ $(document).ready(function(){
         // TODO: Currently when the user first loads the page we set the default language and default game. In the future we'll probably want to first show a banner, then show the list of languages (e.g. the word "welcome" in each language) and let the user select. Then we can let them also pick the game.
         // TODO: allow the user to switch game (available for the given language)
 
+        // TODO: If there are non-letters in the text, show them as they are
         // TODO: Show the keyboard so the users on mobile phone can also play easily and that we can show which letters were already used
         // TODO: when all the word was matched, the user wins
         // TODO: if the user runs out of money, the game is over
