@@ -85,7 +85,7 @@ $(document).ready(function(){
        };
     
        const handle_char = function(char) {
-           console.log(char);
+           console.log(`pressed: '${char}'`);
             if (letters.includes(char)) {
                 // console.log(char);
                 if (used_letters.includes(char)) {
