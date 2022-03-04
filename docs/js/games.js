@@ -100,13 +100,14 @@ $(document).ready(function(){
                         $(`#button_${ix}`).html(char);
                     }
                 }
-                // if not in the word add bad letters list
+                // TODO: if not in the word add bad letters list
                 used_letters.push(char);
             }
         });
-        // TODO: When the user first loads the page we set the default language and default game
-        // TODO: allow the user to switch language
+        // TODO: Currently when the user first loads the page we set the default language and default game. In the future we'll probably want to first show a banner, then show the list of languages (e.g. the word "welcome" in each language) and let the user select. Then we can let them also pick the game.
         // TODO: allow the user to switch game (available for the given language)
+
+        // TODO: Show the keyboard so the users on mobile phone can also play easily and that we can show which letters were already used
         // TODO: when all the word was matched, the user wins
         // TODO: if the user runs out of money, the game is over
     };
