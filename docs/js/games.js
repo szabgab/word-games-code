@@ -157,6 +157,11 @@ $(document).ready(function(){
         $('#configPage').show();
     };
 
+    const cancel_config = function() {
+        $('.page').hide();
+        $('#mainPage').show(); 
+    }
+
     const save_config = function() {
         const language_id = $("#language_selector option:selected").val();
         // console.log(language_id);
@@ -184,4 +189,5 @@ $(document).ready(function(){
     $('#stop_game').click(stop_game);
     $('#show_config').click(show_config);
     $('#save_config').click(save_config);
+    $('#cancel_config').click(cancel_config);
 });
