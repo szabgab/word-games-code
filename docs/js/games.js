@@ -5,6 +5,8 @@ $(document).ready(function(){
     }
     let games = {}
     let game_data = {};
+    let keyboard_status = [];
+
     $('.page').hide();
     $('#mainPage').show();
  
@@ -68,33 +70,22 @@ $(document).ready(function(){
         $('#gamePage').show();
         $('#message').html("")
 
-        //console.log(game_data);
-        let [category, expected_letters] = generate_word();
-        let matched_letters = [];
-        // console.log(category);
-        // console.log(expected_letters);
 
-        $("#category").html(category);
-
-        let html = "";
-        for (let ix = 0; ix < expected_letters.length; ix++) {
-            matched_letters.push("")
-            html += `<button class="button letter" id="button_${ix}"></button>`;
+        const button_pressed = function(event){
+            let char = this.innerHTML;
+            handle_char(char);
         }
-        // console.log(html);
-        $("#word").html(html);
-        let keyboard_id = "hu";
-        let keyboard = keyboards[keyboard_id];
-        let letters = keyboard.join("");
-        letters = letters.replace(/\s/g, "");
-        // console.log(letters);
-        let used_letters = [];
-
-        $( "html" ).keypress(function(event) {
-            // console.log( event.which );
-            // console.log( "á".charCodeAt());
-            // console.log( "á".codePointAt());
-            let char = String.fromCharCode(event.which);
+    
+       const keyboard_pressed = function(event) {
+           // console.log( event.which );
+           // console.log( "á".charCodeAt());
+           // console.log( "á".codePointAt());
+           let char = String.fromCharCode(event.which);
+           handle_char(char);
+       };
+    
+       const handle_char = function(char) {
+           console.log(char);
             if (letters.includes(char)) {
                 // console.log(char);
                 if (used_letters.includes(char)) {
@@ -118,12 +109,60 @@ $(document).ready(function(){
                         // TODO show the "Home" button
                         // TODO hide the "Quit" button
                     }
-
                 }
                 // TODO: if not in the word add bad letters list
                 used_letters.push(char);
             }
-        });
+        }
+    
+        const setup_keyboard = function(keyboard_id) {
+            console.log('setup_keyboard');
+            let keyboard = keyboards[keyboard_id];
+    
+            let html = "";
+            for (let ix = 0; ix < keyboard.length; ix++) {
+                html += `<div class="keyboard row">`;
+                let row = keyboard[ix];
+                for (let jx = 0; jx < row.length; jx++) {
+                    // console.log(row[j]);
+                    keyboard_status[row[jx]] = 'enabled';
+                    if (keyboard[ix][jx] == " ") {
+                        html += '<span>&nbsp</span>';
+                    } else {
+                        html += `<button class="button key">${keyboard[ix][jx]}</button>`;
+                    }
+                }
+                html += "</div>\n";
+            }
+            // console.log(html);
+            $("#keyboard").html(html);
+            $(".key").click(button_pressed);
+        }
+    
+        //console.log(game_data);
+        let [category, expected_letters] = generate_word();
+        let matched_letters = [];
+        // console.log(category);
+        // console.log(expected_letters);
+
+        $("#category").html(category);
+
+        let html = "";
+        for (let ix = 0; ix < expected_letters.length; ix++) {
+            matched_letters.push("")
+            html += `<button class="button letter" id="button_${ix}"></button>`;
+        }
+        // console.log(html);
+        $("#word").html(html);
+        let keyboard_id = "hu";
+        let keyboard = keyboards[keyboard_id];
+        setup_keyboard(keyboard_id);
+        let letters = keyboard.join("");
+        letters = letters.replace(/\s/g, "");
+        // console.log(letters);
+        let used_letters = [];
+    
+        $( "html" ).keypress(keyboard_pressed);
         // TODO: Currently when the user first loads the page we set the default language and default game. In the future we'll probably want to first show a banner, then show the list of languages (e.g. the word "welcome" in each language) and let the user select. Then we can let them also pick the game.
         // TODO: allow the user to switch game (available for the given language)
 
