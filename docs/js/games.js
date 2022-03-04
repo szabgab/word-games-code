@@ -28,17 +28,17 @@ $(document).ready(function(){
         ]
     }
 
-    const loadSiteConfig = function() {
+    const load_site_config = function() {
         $.getJSON(base_url + "games.json", function(data){
             games = data;
             // console.log(games);
-            loadGame("hangman", games[config["language"]]["file"])
+            load_game("hangman", games[config["language"]]["file"])
         }).fail(function(){
             console.log("An error has occurred.");
         });    
     };
 
-    const loadGame = function(game, filename) {
+    const load_game = function(game, filename) {
         const url = base_url + game + "/" + filename;
         $.getJSON(url, function(data){
             game_data = data;
@@ -185,7 +185,7 @@ $(document).ready(function(){
 
 
     load_local_config();
-    loadSiteConfig();
+    load_site_config();
     $('#start_game').click(start_game);
     $('#stop_game').click(stop_game);
     $('#show_config').click(show_config);
