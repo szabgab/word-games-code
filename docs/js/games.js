@@ -131,6 +131,7 @@ $(document).ready(function(){
         // TODO: Show the keyboard so the users on mobile phone can also play easily and that we can show which letters were already used
         // TODO: when all the word was matched, the user wins
         // TODO: if the user runs out of money, the game is over
+        // TODO: the gear icon does not show properly on mobile
     };
  
     const stop_game = function() {
