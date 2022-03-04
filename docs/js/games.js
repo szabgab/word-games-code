@@ -50,11 +50,7 @@ $(document).ready(function(){
         });
     };
 
-    const start_game = function() {
-        console.log("start_game");
-        $('.page').hide();
-        $('#gamePage').show();
-        //console.log(game_data);
+    const generate_word = function() {
         let categories = Object.keys(game_data);
         let category_index = Math.floor(Math.random() * categories.length);
         let category = categories[category_index];
@@ -62,11 +58,23 @@ $(document).ready(function(){
         let words = game_data[category];
         let word_index = Math.floor(Math.random() * words.length);
         let word = words[word_index];
-        console.log(word);
+        // console.log(word);
+        return [category, word.split("")];
+    }
+
+    const start_game = function() {
+        console.log("start_game");
+        $('.page').hide();
+        $('#gamePage').show();
+        //console.log(game_data);
+        let [category, expected_letters] = generate_word();
+        // console.log(category);
+        // console.log(expected_letters);
+
         $("#category").html(category);
 
         let html = "";
-        for (let ix = 0; ix < word.length; ix++) {
+        for (let ix = 0; ix < expected_letters.length; ix++) {
             html += `<button class="button letter" id="button_${ix}"></button>`;
         }
         // console.log(html);
@@ -89,10 +97,10 @@ $(document).ready(function(){
                     return;
                 }
                 // console.log(`checking ${char}`);
-                if (word.includes(char)) {
+                if (expected_letters.includes(char)) {
                     let ix = -1
                     while (true) {
-                        ix = word.indexOf(char, ix+1)
+                        ix = expected_letters.indexOf(char, ix+1)
                         // console.log(ix);
                         if (ix == -1) {
                             break
