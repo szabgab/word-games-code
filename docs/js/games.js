@@ -187,7 +187,7 @@ $(document).ready(function(){
         // TODO: Currently when the user first loads the page we set the default language and default game. In the future we'll probably want to first show a banner, then show the list of languages (e.g. the word "welcome" in each language) and let the user select. Then we can let them also pick the game.
         // TODO: allow the user to switch game (available for the given language)
 
-        // TODO: Add about modal page showing the version numer or released date and other information about the project.
+        // TODO: Add version numer or released date to the about page.
         // TODO: If there are non-letters in the text, show them as they are
         // TODO: Show which letters were already used
         // TODO: when all the word was matched, the user wins
@@ -203,6 +203,15 @@ $(document).ready(function(){
         $( "html" ).off("keypress");
     };
 
+
+    const show_about = function() {
+        $("#about_modal").addClass('is-active');
+    };
+
+    const close_about = function() {
+        console.log("close");
+        $("#about_modal").removeClass('is-active');
+    };
 
     const show_config = function() {
         $('.page').hide();
@@ -252,6 +261,8 @@ $(document).ready(function(){
     $('#start_game').click(start_game);
     $('#stop_game').click(stop_game);
     $('#show_config').click(show_config);
+    $('#show_about').click(show_about);
+    $('#close_about_modal').click(close_about);
     $('#save_config').click(save_config);
     $('#cancel_config').click(cancel_config);
 });

@@ -13,6 +13,12 @@
       .page {
         display: none;
       }
+      .modal-background {
+        background-color: white;
+      }
+      #close_about_modal {
+        background-color: black;
+      }
     </style>
   </head>
   <body>
@@ -21,6 +27,7 @@
         <h1 class="title"><a href="https://librelingo.app/">Word Games</a></h1>
         <button class="button" id="start_game">Start</button>
         <button class="button" id="show_config"><span class="icon fa-solid fa-gear"></span></button>
+        <button class="button" id="show_about"><span class="icon fas fa-question"></span></button>
       </div>
 
       <div class="container page" id="configPage">
@@ -42,6 +49,17 @@
           <hr>
           <div id="keyboard"></div>
       </div>
+
+      <div class="modal" id="about_modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+           About this game.
+           <hr>
+           Developed and maintained by <a href="https://szabgab.com/">Gabor Szabo</a>
+        </div>
+        <button id="close_about_modal" class="modal-close is-large" aria-label="close"></button>
+      </div>
+  
     </section>
   </body>
 </html>
