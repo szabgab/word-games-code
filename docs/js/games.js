@@ -5,7 +5,7 @@ $(document).ready(function(){
     }
     let games = {}
     let game_data = {};
-    let keyboard_status = [];
+    let keyboard_status = {};
     let keyboard_id = "hu";
 
     $('.page').hide();
@@ -67,7 +67,7 @@ $(document).ready(function(){
 
     const start_game = function() {
         console.log("start_game");
-        keyboard_status = [];
+        keyboard_status = {};
         $('.page').hide();
         $('#gamePage').show();
         $('#message').html("")
@@ -88,14 +88,14 @@ $(document).ready(function(){
     
        const handle_char = function(char) {
             console.log(`pressed: '${char}'`);
-            if (! letters.includes(char)) {
+            if (! keyboard_letters.includes(char)) {
                 console.log(`An invalid key ${char} was pressed`)
             }
 
             // console.log(char);
             if (used_letters.includes(char)) {
                 // TODO: shall we give some feedback when someone presses a key that is disabled on the virtual keyboard?
-                console.log(`Character ${char} was already used.`)
+                // console.log(`Character ${char} was already used.`)
                 return;
             }
             // console.log(`checking ${char}`);
@@ -116,7 +116,7 @@ $(document).ready(function(){
                     // TODO show the "Next" button
                     // TODO show the "Home" button
                     // TODO hide the "Quit" button
-                    // TODO disabled the whole keyboard?
+                    disable_the_whole_keyboard();
                 }
             } else {
                 // TODO: if not in the word add bad letters list
@@ -125,7 +125,18 @@ $(document).ready(function(){
             used_letters.push(char);
             setup_keyboard();
         };
-    
+
+        const disable_the_whole_keyboard = function() {
+            console.log('disable_the_whole_keyboard');
+            keyboard_letters.forEach(function (char){
+                // console.log(char);
+                if (!(char in keyboard_status)) {
+                    // console.log("in", char);
+                    keyboard_status[char] = "disabled"; 
+                }
+            });
+        };
+
         const setup_keyboard = function() {
             console.log('setup_keyboard');
             let keyboard = keyboards[keyboard_id];
@@ -136,11 +147,11 @@ $(document).ready(function(){
                 let row = keyboard[ix];
                 for (let jx = 0; jx < row.length; jx++) {
                     const char = keyboard[ix][jx]
-                    // console.log(row[j]);
+                    // console.log(char, keyboard_status[char]);
                     if (keyboard[ix][jx] == " ") {
                         html += '<span>&nbsp</span>';
                     } else {
-                        let disabled = "false";
+                        let disabled = "";
                         let status = "";
                         if (keyboard_status[char] == "matched") {
                             status = "is-success";
@@ -150,7 +161,10 @@ $(document).ready(function(){
                             status = "is-danger";
                             disabled = "disabled";
                         }
-                        // console.log(disabled);
+                        if (keyboard_status[char] == "disabled") {
+                            disabled = "disabled";
+                        }
+                         // console.log(disabled);
                         html += `<button class="button key ${status}" ${disabled}>${char}</button>`;
                     }
                 }
@@ -191,23 +205,13 @@ $(document).ready(function(){
         $("#word").html(html);
         let keyboard = keyboards[keyboard_id];
         setup_keyboard();
-        let letters = keyboard.join("");
-        letters = letters.replace(/\s/g, "");
+        let keyboard_letters_str = keyboard.join("");
+        keyboard_letters_str = keyboard_letters_str.replace(/\s/g, "");
+        let keyboard_letters = keyboard_letters_str.split("");
         // console.log(letters);
         let used_letters = [];
     
         $( "html" ).keypress(keyboard_pressed);
-        // TODO: Currently when the user first loads the page we set the default language and default game. In the future we'll probably want to first show a banner, then show the list of languages (e.g. the word "welcome" in each language) and let the user select. Then we can let them also pick the game.
-        // TODO: allow the user to switch game (available for the given language)
-
-        // TODO: Add version numer or released date to the about page.
-        // TODO: If there are non-letters in the text, show them as they are
-        // TODO: Show which letters were already used
-        // TODO: when all the word was matched, the user wins
-        // TODO: if the user runs out of money, the game is over
-        // TODO: the gear icon does not show properly on mobile
-        // TODO: recognize when the data is not available (yet) or if there was a network error and let the user know.
-        // TODO: Allow the user to mark specific games and languages to be available off line. Then download them and keep them in separate variables or even in the local storage so we can switch to that language game while offline as well
     };
  
     const stop_game = function() {
@@ -278,3 +282,15 @@ $(document).ready(function(){
     $('#save_config').click(save_config);
     $('#cancel_config').click(cancel_config);
 });
+
+
+// TODO: Currently when the user first loads the page we set the default language and default game. In the future we'll probably want to first show a banner, then show the list of languages (e.g. the word "welcome" in each language) and let the user select. Then we can let them also pick the game.
+// TODO: allow the user to switch game (available for the given language)
+
+// TODO: Add version numer or released date to the about page.
+// TODO: If there are non-letters in the text, show them as they are
+// TODO: when all the word was matched, the user wins - disable or hide hint button
+// TODO: if the user runs out of money, the game is over
+// TODO: the gear icon does not show properly on mobile
+// TODO: recognize when the data is not available (yet) or if there was a network error and let the user know.
+// TODO: Allow the user to mark specific games and languages to be available off line. Then download them and keep them in separate variables or even in the local storage so we can switch to that language game while offline as well
