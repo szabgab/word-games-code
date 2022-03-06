@@ -160,7 +160,20 @@ $(document).ready(function(){
             $("#keyboard").html(html);
             $(".key").click(button_pressed);
         };
-    
+
+        const hint = function() {
+            console.log('hint');
+            // find the first letter which is not know yet and display it (pretend the user clicked it)
+            for (let ix = 0; ix < expected_letters.length; ix++) {
+                if (expected_letters[ix] != matched_letters[ix]) {
+                    handle_char(expected_letters[ix]);
+                    //console.log(ix, expected_letters[ix])
+                    return;
+                }
+            }
+        };
+
+        $('#hint').click(hint);
         //console.log(game_data);
         let [category, expected_letters] = generate_word();
         let matched_letters = [];
@@ -254,7 +267,6 @@ $(document).ready(function(){
     const save_local_config = function() {
         localStorage.setItem('word_games', JSON.stringify(config));
     };
-
 
     load_local_config();
     load_site_config();
