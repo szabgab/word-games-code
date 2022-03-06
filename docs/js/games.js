@@ -6,6 +6,7 @@ $(document).ready(function(){
     let games = {}
     let game_data = {};
     let keyboard_status = [];
+    let keyboard_id = "hu";
 
     $('.page').hide();
     $('#mainPage').show();
@@ -66,6 +67,7 @@ $(document).ready(function(){
 
     const start_game = function() {
         console.log("start_game");
+        keyboard_status = [];
         $('.page').hide();
         $('#gamePage').show();
         $('#message').html("")
@@ -85,37 +87,46 @@ $(document).ready(function(){
        };
     
        const handle_char = function(char) {
-           console.log(`pressed: '${char}'`);
-            if (letters.includes(char)) {
-                // console.log(char);
-                if (used_letters.includes(char)) {
-                    return;
-                }
-                // console.log(`checking ${char}`);
-                if (expected_letters.includes(char)) {
-                    let ix = -1
-                    while (true) {
-                        ix = expected_letters.indexOf(char, ix+1)
-                        // console.log(ix);
-                        if (ix == -1) {
-                            break
-                        }
-                        $(`#button_${ix}`).html(char);
-                        matched_letters[ix] = char;
-                    }
-                    if (JSON.stringify(expected_letters)==JSON.stringify(matched_letters)) {
-                        $('#message').html("Matched!");
-                        // TODO show the "Next" button
-                        // TODO show the "Home" button
-                        // TODO hide the "Quit" button
-                    }
-                }
-                // TODO: if not in the word add bad letters list
-                used_letters.push(char);
+            console.log(`pressed: '${char}'`);
+            if (! letters.includes(char)) {
+                console.log(`An invalid key ${char} was pressed`)
             }
-        }
+
+            // console.log(char);
+            if (used_letters.includes(char)) {
+                // TODO: shall we give some feedback when someone presses a key that is disabled on the virtual keyboard?
+                console.log(`Character ${char} was already used.`)
+                return;
+            }
+            // console.log(`checking ${char}`);
+            if (expected_letters.includes(char)) {
+                let ix = -1
+                while (true) {
+                    ix = expected_letters.indexOf(char, ix+1)
+                    // console.log(ix);
+                    if (ix == -1) {
+                        break
+                    }
+                    $(`#button_${ix}`).html(char);
+                    matched_letters[ix] = char;
+                    keyboard_status[char] = 'matched';
+                }
+                if (JSON.stringify(expected_letters)==JSON.stringify(matched_letters)) {
+                    $('#message').html("Matched!");
+                    // TODO show the "Next" button
+                    // TODO show the "Home" button
+                    // TODO hide the "Quit" button
+                    // TODO disabled the whole keyboard?
+                }
+            } else {
+                // TODO: if not in the word add bad letters list
+                keyboard_status[char] = 'wrong';
+            }
+            used_letters.push(char);
+            setup_keyboard();
+        };
     
-        const setup_keyboard = function(keyboard_id) {
+        const setup_keyboard = function() {
             console.log('setup_keyboard');
             let keyboard = keyboards[keyboard_id];
     
@@ -124,12 +135,23 @@ $(document).ready(function(){
                 html += `<div class="keyboard row">`;
                 let row = keyboard[ix];
                 for (let jx = 0; jx < row.length; jx++) {
+                    const char = keyboard[ix][jx]
                     // console.log(row[j]);
-                    keyboard_status[row[jx]] = 'enabled';
                     if (keyboard[ix][jx] == " ") {
                         html += '<span>&nbsp</span>';
                     } else {
-                        html += `<button class="button key">${keyboard[ix][jx]}</button>`;
+                        let disabled = "false";
+                        let status = "";
+                        if (keyboard_status[char] == "matched") {
+                            status = "is-success";
+                            disabled = "disabled";
+                        }
+                        if (keyboard_status[char] == "wrong") {
+                            status = "is-danger";
+                            disabled = "disabled";
+                        }
+                        // console.log(disabled);
+                        html += `<button class="button key ${status}" ${disabled}>${char}</button>`;
                     }
                 }
                 html += "</div>\n";
@@ -137,7 +159,7 @@ $(document).ready(function(){
             // console.log(html);
             $("#keyboard").html(html);
             $(".key").click(button_pressed);
-        }
+        };
     
         //console.log(game_data);
         let [category, expected_letters] = generate_word();
@@ -154,9 +176,8 @@ $(document).ready(function(){
         }
         // console.log(html);
         $("#word").html(html);
-        let keyboard_id = "hu";
         let keyboard = keyboards[keyboard_id];
-        setup_keyboard(keyboard_id);
+        setup_keyboard();
         let letters = keyboard.join("");
         letters = letters.replace(/\s/g, "");
         // console.log(letters);
@@ -167,7 +188,7 @@ $(document).ready(function(){
         // TODO: allow the user to switch game (available for the given language)
 
         // TODO: If there are non-letters in the text, show them as they are
-        // TODO: Show the keyboard so the users on mobile phone can also play easily and that we can show which letters were already used
+        // TODO: Show which letters were already used
         // TODO: when all the word was matched, the user wins
         // TODO: if the user runs out of money, the game is over
         // TODO: the gear icon does not show properly on mobile
