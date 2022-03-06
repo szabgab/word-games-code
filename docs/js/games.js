@@ -187,11 +187,14 @@ $(document).ready(function(){
         // TODO: Currently when the user first loads the page we set the default language and default game. In the future we'll probably want to first show a banner, then show the list of languages (e.g. the word "welcome" in each language) and let the user select. Then we can let them also pick the game.
         // TODO: allow the user to switch game (available for the given language)
 
+        // TODO: Add about modal page showing the version numer or released date and other information about the project.
         // TODO: If there are non-letters in the text, show them as they are
         // TODO: Show which letters were already used
         // TODO: when all the word was matched, the user wins
         // TODO: if the user runs out of money, the game is over
         // TODO: the gear icon does not show properly on mobile
+        // TODO: recognize when the data is not available (yet) or if there was a network error and let the user know.
+        // TODO: Allow the user to mark specific games and languages to be available off line. Then download them and keep them in separate variables or even in the local storage so we can switch to that language game while offline as well
     };
  
     const stop_game = function() {
