@@ -1,12 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+<head>
+<body>
+
 Data before reset:
 <div id="before"></div>
 <hr>
+<button id="reset">Reset</button>
+<hr>
 Data after reset:
-<div id="afert"></div>
+<div id="after"></div>
 <script>
 const name = "word_games";
 document.getElementById('before').innerHTML = localStorage.getItem(name);
-localStorage.removeItem(name);
-document.getElementById('after').innerHTML = localStorage.getItem(name);
+document.getElementById('reset').addEventListener('click', function() {
+    localStorage.removeItem(name);
+    document.getElementById('after').innerHTML = localStorage.getItem(name);
+});
 </script>
 
+    
+</body>
+</html>

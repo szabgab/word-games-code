@@ -1,9 +1,10 @@
 $(document).ready(function(){
     const base_url = "https://word-games-data.szabgab.com/";
     let config = {
-        "language_id": "en"
-    }
-    let games = {}
+        "language_id": "en",
+        "game_id": "hangman"
+    };
+    let site_config = {};
     let game_data = {};
     let keyboard_status = {};
 
@@ -37,9 +38,9 @@ $(document).ready(function(){
 
     const load_site_config = function() {
         $.getJSON(base_url + "games.json", function(data){
-            games = data;
-            // console.log(games);
-            load_game("hangman", games[config["language"]]["file"])
+            site_config = data;
+            console.log("site_config:", site_config);
+            load_game("hangman", site_config[config["language_id"]]["file"])
         }).fail(function(){
             console.log("An error has occurred.");
         });    
@@ -49,7 +50,7 @@ $(document).ready(function(){
         const url = base_url + game + "/" + filename;
         $.getJSON(url, function(data){
             game_data = data;
-            console.log(game_data);
+            console.log("game_data:", game_data);
             //$("#output").html("Loaded");
         }).fail(function(){
             //$("#output").html('Error');
@@ -142,9 +143,10 @@ $(document).ready(function(){
         };
 
         const setup_keyboard = function() {
-            console.log('setup_keyboard');
-            const language_id = config["language_d"];
-            const keyboard_id = games[language_id]["keyboard_id"];
+            console.log("setup_keyboard");
+            const language_id = config["language_id"];
+            // console.log("language_id:", language_id);
+            const keyboard_id = site_config[language_id]["keyboard_id"];
             let keyboard = keyboards[keyboard_id];
     
             let html = "";
@@ -209,7 +211,7 @@ $(document).ready(function(){
         }
         // console.log(html);
         $("#word").html(html);
-        const keyboard_id = games[config["language_id"]]["keyboard_id"]
+        const keyboard_id = site_config[config["language_id"]]["keyboard_id"]
         let keyboard = keyboards[keyboard_id];
         setup_keyboard();
         let keyboard_letters_str = keyboard.join("");
@@ -241,12 +243,12 @@ $(document).ready(function(){
         $('.page').hide();
 
         let language_options = "";
-        let languages = Object.keys(games);
+        let languages = Object.keys(site_config);
         for (let ix=0; ix < languages.length; ix++) {
             let language_id = languages[ix];
             language_options += `<option value="${language_id}" `;
-            language_options += (language_id == config["language"] ? "selected" : "");
-            language_options += `>${games[language_id]["name"]}</option>`;
+            language_options += (language_id == config["language_id"] ? "selected" : "");
+            language_options += `>${site_config[language_id]["name"]}</option>`;
         }
         // console.log(language_options);
         $("#language_selector").html(language_options);
@@ -261,9 +263,8 @@ $(document).ready(function(){
 
     const save_config = function() {
         const language_id = $("#language_selector option:selected").val();
-        // console.log(language_id);
-        config["language"] = language_id;
-        load_game("hangman", games[language_id]["file"])
+        config["language_id"] = language_id;
+        load_game("hangman", site_config[language_id]["file"])
         save_local_config();
         $('.page').hide();
         $('#mainPage').show(); 
@@ -274,21 +275,22 @@ $(document).ready(function(){
         if (config_str !== null) {
             config = JSON.parse(config_str);
         }
+        console.log("local_config", config);
     };
 
     const save_local_config = function() {
-        localStorage.setItem('word_games', JSON.stringify(config));
+        localStorage.setItem("word_games", JSON.stringify(config));
     };
 
     load_local_config();
     load_site_config();
-    $('#start_game').click(start_game);
-    $('#stop_game').click(stop_game);
-    $('#show_config').click(show_config);
-    $('#show_about').click(show_about);
-    $('#close_about_modal').click(close_about);
-    $('#save_config').click(save_config);
-    $('#cancel_config').click(cancel_config);
+    $("#start_game").click(start_game);
+    $("#stop_game").click(stop_game);
+    $("#show_config").click(show_config);
+    $("#show_about").click(show_about);
+    $("#close_about_modal").click(close_about);
+    $("#save_config").click(save_config);
+    $("#cancel_config").click(cancel_config);
 });
 
 
