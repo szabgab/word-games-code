@@ -1,0 +1,12 @@
+Data before reset:
+<div id="before"></div>
+<hr>
+Data after reset:
+<div id="afert"></div>
+<script>
+const name = "word_games";
+document.getElementById('before').innerHTML = localStorage.getItem(name);
+localStorage.removeItem(name);
+document.getElementById('after').innerHTML = localStorage.getItem(name);
+</script>
+

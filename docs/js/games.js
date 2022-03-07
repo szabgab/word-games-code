@@ -1,12 +1,11 @@
 $(document).ready(function(){
     const base_url = "https://word-games-data.szabgab.com/";
     let config = {
-        "language": "en"
+        "language_id": "en"
     }
     let games = {}
     let game_data = {};
     let keyboard_status = {};
-    let keyboard_id = "hu";
 
     $('.page').hide();
     $('#mainPage').show();
@@ -16,6 +15,11 @@ $(document).ready(function(){
             "qwertyuiop",
             "  asdfghjkl",
             "    zxcvbnm"
+        ],
+        "ladino": [
+            "  ertyuiop",
+            "  asdfghjkl",
+            "    z cvbnm"
         ],
         "he": [
             "קראטוןםפ",
@@ -139,6 +143,8 @@ $(document).ready(function(){
 
         const setup_keyboard = function() {
             console.log('setup_keyboard');
+            const language_id = config["language_d"];
+            const keyboard_id = games[language_id]["keyboard_id"];
             let keyboard = keyboards[keyboard_id];
     
             let html = "";
@@ -203,6 +209,7 @@ $(document).ready(function(){
         }
         // console.log(html);
         $("#word").html(html);
+        const keyboard_id = games[config["language_id"]]["keyboard_id"]
         let keyboard = keyboards[keyboard_id];
         setup_keyboard();
         let keyboard_letters_str = keyboard.join("");
