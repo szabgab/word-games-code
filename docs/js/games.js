@@ -256,6 +256,7 @@ $(document).ready(function(){
         const language_id = $("#language_selector option:selected").val();
         // console.log(language_id);
         config["language"] = language_id;
+        load_game("hangman", games[language_id]["file"])
         save_local_config();
         $('.page').hide();
         $('#mainPage').show(); 
@@ -294,3 +295,6 @@ $(document).ready(function(){
 // TODO: the gear icon does not show properly on mobile
 // TODO: recognize when the data is not available (yet) or if there was a network error and let the user know.
 // TODO: Allow the user to mark specific games and languages to be available off line. Then download them and keep them in separate variables or even in the local storage so we can switch to that language game while offline as well
+// TODO: Introduce levels: First level is short and simple words, the higher the level the longer the words or multiword expressions using more complex words. (e.g. in hungarian it might be more simple to have words that only use aeiou vowels and not the umlauted ones.)
+// TODO: Allow people to create word sets for levels and the allow others to select "game" of someone. This could be used by teachers to prepare words based on the level of the students.
+
