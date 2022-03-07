@@ -99,7 +99,6 @@ $(document).ready(function(){
 
             // console.log(char);
             if (used_letters.includes(char)) {
-                // TODO: shall we give some feedback when someone presses a key that is disabled on the virtual keyboard?
                 // console.log(`Character ${char} was already used.`)
                 return;
             }
@@ -118,13 +117,9 @@ $(document).ready(function(){
                 }
                 if (JSON.stringify(expected_letters)==JSON.stringify(matched_letters)) {
                     $('#message').html("Matched!");
-                    // TODO show the "Next" button
-                    // TODO show the "Home" button
-                    // TODO hide the "Quit" button
                     disable_the_whole_keyboard();
                 }
             } else {
-                // TODO: if not in the word add bad letters list
                 keyboard_status[char] = 'wrong';
             }
             used_letters.push(char);
@@ -293,17 +288,35 @@ $(document).ready(function(){
     $("#cancel_config").click(cancel_config);
 });
 
+// TODO: separate the code of a single game from the switching to the languag-game pair.
+
+// TODO: make the letters on the buttons bigget, but the buttons smaller, make sure they fit in the width of the screen
+
+// TODO: when all the word was matched, the user wins - disable or hide hint button
+    // TODO show the "Next" button
+    // TODO show the "Home" button
+    // TODO hide the "Quit" button
+
+// TODO: recognize when the data is not available (yet) or if there was a network error and let the user know.
+
 
 // TODO: Currently when the user first loads the page we set the default language and default game. In the future we'll probably want to first show a banner, then show the list of languages (e.g. the word "welcome" in each language) and let the user select. Then we can let them also pick the game.
-// TODO: allow the user to switch game (available for the given language)
-
 // TODO: Add version numer or released date to the about page.
 // TODO: If there are non-letters in the text, show them as they are
-// TODO: when all the word was matched, the user wins - disable or hide hint button
-// TODO: if the user runs out of money, the game is over
-// TODO: the gear icon does not show properly on mobile
-// TODO: recognize when the data is not available (yet) or if there was a network error and let the user know.
-// TODO: Allow the user to mark specific games and languages to be available off line. Then download them and keep them in separate variables or even in the local storage so we can switch to that language game while offline as well
+
+// TODO Introduce In-game money;
+//    start by giving 100 coins to the user
+//    make each guess cost 1
+//    make each bad guess cost 2
+//    make each hint cost 3
+//    when the user finds a word give her money revard (based on the length of the word, the number of different letters, full size of the abc)
+//    if the user runs out of money allow her to ask for more (or buy more)
+
+// TODO: Allow the user to mark specific games and languages to be available off-line. Then download them and keep them in separate variables or even in the local storage so we can switch to that language game while offline as well
 // TODO: Introduce levels: First level is short and simple words, the higher the level the longer the words or multiword expressions using more complex words. (e.g. in hungarian it might be more simple to have words that only use aeiou vowels and not the umlauted ones.)
 // TODO: Allow people to create word sets for levels and the allow others to select "game" of someone. This could be used by teachers to prepare words based on the level of the students.
 
+// TODO: shall we give some feedback when someone presses a key that is disabled on the virtual keyboard? This is only relevant on a computer, right?
+
+// TODO: at the end of the game, show the translation in English where available.
+// TODO: at the end of the game, show a link to the wikipedia entry of the word (if there is one)
