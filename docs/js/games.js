@@ -7,6 +7,10 @@ $(document).ready(function(){
     let site_config = {};
     let game_data = {};
     let keyboard_status = {};
+    let keyboard_letters = [];
+    let used_letters = [];
+    let expected_letters = [];
+    let matched_letters = [];
 
     $('.page').hide();
     $('#mainPage').show();
@@ -52,6 +56,7 @@ $(document).ready(function(){
             game_data = data;
             console.log("game_data:", game_data);
             //$("#output").html("Loaded");
+            setup_game();
         }).fail(function(){
             //$("#output").html('Error');
             console.log("An error has occurred.");
@@ -70,133 +75,148 @@ $(document).ready(function(){
         return [category, word.split("")];
     }
 
+    const setup_game = function() {
+        console.log("setup_game");
+
+        const keyboard_id = site_config[config["language_id"]]["keyboard_id"]
+        let keyboard = keyboards[keyboard_id];
+        let keyboard_letters_str = keyboard.join("");
+        keyboard_letters_str = keyboard_letters_str.replace(/\s/g, "");
+        keyboard_letters = keyboard_letters_str.split("");
+
+    };
+
+    const updated_keyboard = function() {
+        console.log("update_keyboard");
+        const language_id = config["language_id"];
+        // console.log("language_id:", language_id);
+        const keyboard_id = site_config[language_id]["keyboard_id"];
+        let keyboard = keyboards[keyboard_id];
+
+        let html = "";
+        for (let ix = 0; ix < keyboard.length; ix++) {
+            html += `<div class="keyboard row">`;
+            let row = keyboard[ix];
+            for (let jx = 0; jx < row.length; jx++) {
+                const char = keyboard[ix][jx]
+                // console.log(char, keyboard_status[char]);
+                if (keyboard[ix][jx] == " ") {
+                    html += '<span>&nbsp</span>';
+                } else {
+                    let disabled = "";
+                    let status = "";
+                    if (keyboard_status[char] == "matched") {
+                        status = "is-success";
+                        disabled = "disabled";
+                    }
+                    if (keyboard_status[char] == "wrong") {
+                        status = "is-danger";
+                        disabled = "disabled";
+                    }
+                    if (keyboard_status[char] == "disabled") {
+                        disabled = "disabled";
+                    }
+                     // console.log(disabled);
+                    html += `<button class="button key ${status}" ${disabled}>${char}</button>`;
+                }
+            }
+            html += "</div>\n";
+        }
+        // console.log(html);
+        $("#keyboard").html(html);
+        $(".key").click(button_pressed);
+    };
+
+    const button_pressed = function(event){
+        let char = this.innerHTML;
+        handle_char(char);
+    }
+
+   const keyboard_pressed = function(event) {
+       // console.log( event.which );
+       // console.log( "á".charCodeAt());
+       // console.log( "á".codePointAt());
+       let char = String.fromCharCode(event.which);
+       handle_char(char);
+    };
+
+    const handle_char = function(char) {
+        console.log(`pressed: '${char}'`);
+        if (! keyboard_letters.includes(char)) {
+            console.log(`An invalid key ${char} was pressed`)
+        }
+
+        // console.log(char);
+        if (used_letters.includes(char)) {
+            // console.log(`Character ${char} was already used.`)
+            return;
+        }
+        // console.log(`checking ${char}`);
+        if (expected_letters.includes(char)) {
+            let ix = -1
+            while (true) {
+                ix = expected_letters.indexOf(char, ix+1)
+                // console.log(ix);
+                if (ix == -1) {
+                    break
+                }
+                $(`#button_${ix}`).html(char);
+                matched_letters[ix] = char;
+                keyboard_status[char] = 'matched';
+            }
+            if (JSON.stringify(expected_letters)==JSON.stringify(matched_letters)) {
+                $('#message').html("Matched!");
+                disable_the_whole_keyboard();
+            }
+        } else {
+            keyboard_status[char] = 'wrong';
+        }
+        used_letters.push(char);
+        updated_keyboard();
+    };
+
+    const disable_the_whole_keyboard = function() {
+        console.log('disable_the_whole_keyboard');
+        keyboard_letters.forEach(function (char){
+            // console.log(char);
+            if (!(char in keyboard_status)) {
+                // console.log("in", char);
+                keyboard_status[char] = "disabled"; 
+            }
+        });
+    };
+
+    const hint = function() {
+        console.log('hint');
+        // find the first letter which is not know yet and display it (pretend the user clicked it)
+        for (let ix = 0; ix < expected_letters.length; ix++) {
+            if (expected_letters[ix] != matched_letters[ix]) {
+                handle_char(expected_letters[ix]);
+                //console.log(ix, expected_letters[ix])
+                return;
+            }
+        }
+    };
+
     const start_game = function() {
         console.log("start_game");
-        keyboard_status = {};
+
+        const chars = Object.keys(keyboard_status);
+        for (let ix=0; ix < chars.length; ix++) {
+            delete keyboard_status[chars[ix]];
+        }
+        matched_letters = [];
+        used_letters = [];
+
         $('.page').hide();
         $('#gamePage').show();
         $('#message').html("")
-
-
-        const button_pressed = function(event){
-            let char = this.innerHTML;
-            handle_char(char);
-        }
-    
-       const keyboard_pressed = function(event) {
-           // console.log( event.which );
-           // console.log( "á".charCodeAt());
-           // console.log( "á".codePointAt());
-           let char = String.fromCharCode(event.which);
-           handle_char(char);
-       };
-    
-       const handle_char = function(char) {
-            console.log(`pressed: '${char}'`);
-            if (! keyboard_letters.includes(char)) {
-                console.log(`An invalid key ${char} was pressed`)
-            }
-
-            // console.log(char);
-            if (used_letters.includes(char)) {
-                // console.log(`Character ${char} was already used.`)
-                return;
-            }
-            // console.log(`checking ${char}`);
-            if (expected_letters.includes(char)) {
-                let ix = -1
-                while (true) {
-                    ix = expected_letters.indexOf(char, ix+1)
-                    // console.log(ix);
-                    if (ix == -1) {
-                        break
-                    }
-                    $(`#button_${ix}`).html(char);
-                    matched_letters[ix] = char;
-                    keyboard_status[char] = 'matched';
-                }
-                if (JSON.stringify(expected_letters)==JSON.stringify(matched_letters)) {
-                    $('#message').html("Matched!");
-                    disable_the_whole_keyboard();
-                }
-            } else {
-                keyboard_status[char] = 'wrong';
-            }
-            used_letters.push(char);
-            setup_keyboard();
-        };
-
-        const disable_the_whole_keyboard = function() {
-            console.log('disable_the_whole_keyboard');
-            keyboard_letters.forEach(function (char){
-                // console.log(char);
-                if (!(char in keyboard_status)) {
-                    // console.log("in", char);
-                    keyboard_status[char] = "disabled"; 
-                }
-            });
-        };
-
-        const setup_keyboard = function() {
-            console.log("setup_keyboard");
-            const language_id = config["language_id"];
-            // console.log("language_id:", language_id);
-            const keyboard_id = site_config[language_id]["keyboard_id"];
-            let keyboard = keyboards[keyboard_id];
-    
-            let html = "";
-            for (let ix = 0; ix < keyboard.length; ix++) {
-                html += `<div class="keyboard row">`;
-                let row = keyboard[ix];
-                for (let jx = 0; jx < row.length; jx++) {
-                    const char = keyboard[ix][jx]
-                    // console.log(char, keyboard_status[char]);
-                    if (keyboard[ix][jx] == " ") {
-                        html += '<span>&nbsp</span>';
-                    } else {
-                        let disabled = "";
-                        let status = "";
-                        if (keyboard_status[char] == "matched") {
-                            status = "is-success";
-                            disabled = "disabled";
-                        }
-                        if (keyboard_status[char] == "wrong") {
-                            status = "is-danger";
-                            disabled = "disabled";
-                        }
-                        if (keyboard_status[char] == "disabled") {
-                            disabled = "disabled";
-                        }
-                         // console.log(disabled);
-                        html += `<button class="button key ${status}" ${disabled}>${char}</button>`;
-                    }
-                }
-                html += "</div>\n";
-            }
-            // console.log(html);
-            $("#keyboard").html(html);
-            $(".key").click(button_pressed);
-        };
-
-        const hint = function() {
-            console.log('hint');
-            // find the first letter which is not know yet and display it (pretend the user clicked it)
-            for (let ix = 0; ix < expected_letters.length; ix++) {
-                if (expected_letters[ix] != matched_letters[ix]) {
-                    handle_char(expected_letters[ix]);
-                    //console.log(ix, expected_letters[ix])
-                    return;
-                }
-            }
-        };
-
         $('#hint').click(hint);
-        //console.log(game_data);
-        let [category, expected_letters] = generate_word();
-        let matched_letters = [];
+
+        let category;
+        [category, expected_letters] = generate_word();
         // console.log(category);
         // console.log(expected_letters);
-
         $("#category").html(category);
 
         let html = "";
@@ -204,17 +224,10 @@ $(document).ready(function(){
             matched_letters.push("")
             html += `<button class="button letter" id="button_${ix}"></button>`;
         }
-        // console.log(html);
         $("#word").html(html);
-        const keyboard_id = site_config[config["language_id"]]["keyboard_id"]
-        let keyboard = keyboards[keyboard_id];
-        setup_keyboard();
-        let keyboard_letters_str = keyboard.join("");
-        keyboard_letters_str = keyboard_letters_str.replace(/\s/g, "");
-        let keyboard_letters = keyboard_letters_str.split("");
-        // console.log(letters);
-        let used_letters = [];
-    
+
+        updated_keyboard();
+
         $( "html" ).keypress(keyboard_pressed);
     };
  
@@ -287,8 +300,6 @@ $(document).ready(function(){
     $("#save_config").click(save_config);
     $("#cancel_config").click(cancel_config);
 });
-
-// TODO: separate the code of a single game from the switching to the languag-game pair.
 
 // TODO: make the letters on the buttons bigget, but the buttons smaller, make sure they fit in the width of the screen
 
