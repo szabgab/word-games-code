@@ -3,7 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=yes">
+  <title>Reset local data</title>
 <head>
+<style>
+.hidden {
+  display: none;
+}
+</style>
 <body>
 
 Data before reset:
@@ -11,13 +17,19 @@ Data before reset:
 <hr>
 <button id="reset">Reset</button>
 <hr>
+
+<div id="after_div" class="hidden">
 Data after reset:
 <div id="after"></div>
+<hr>
+</div>
+
 <script>
 const name = "word_games";
 document.getElementById('before').innerHTML = localStorage.getItem(name);
 document.getElementById('reset').addEventListener('click', function() {
     localStorage.removeItem(name);
+    document.getElementById('after_div').classList.remove('hidden');
     document.getElementById('after').innerHTML = localStorage.getItem(name);
 });
 </script>
