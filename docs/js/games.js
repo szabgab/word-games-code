@@ -9,6 +9,7 @@ $(document).ready(function(){
     let keyboard_status = {};
     let keyboard_letters = [];
     let used_letters = [];
+    let hidden_word = "";
     let expected_letters = [];
     let matched_letters = [];
 
@@ -70,9 +71,9 @@ $(document).ready(function(){
         // console.log(category);
         let words = game_data[category];
         let word_index = Math.floor(Math.random() * words.length);
-        let word = words[word_index];
-        console.log(word);
-        return [category, word.split("")];
+        hidden_word = words[word_index];
+        console.log(hidden_word);
+        return [category, hidden_word.split("")];
     }
 
     const setup_game = function() {
@@ -132,12 +133,18 @@ $(document).ready(function(){
         handle_char(char);
     }
 
-   const real_keyboard_pressed = function(event) {
-       // console.log( event.which );
-       // console.log( "á".charCodeAt());
-       // console.log( "á".codePointAt());
-       let char = String.fromCharCode(event.which);
-       handle_char(char);
+    const real_keyboard_pressed = function(event) {
+        console.log( event.which );
+        // console.log( "á".charCodeAt());
+        // console.log( "á".codePointAt());
+        let char = String.fromCharCode(event.which);
+        if (char == "?") {
+            show_about();
+        } else if (char == "/") {
+            show_config();
+        } else {
+            handle_char(char);
+        }
     };
 
     const handle_char = function(char) {
@@ -165,7 +172,7 @@ $(document).ready(function(){
                 keyboard_status[char] = 'matched';
             }
             if (JSON.stringify(expected_letters)==JSON.stringify(matched_letters)) {
-                $('#message').html("Matched!");
+                $('#message').html(`Matched! <a href="${site_config[config["language_id"]]["wikipedia"]}${hidden_word}" target=_blank>Wikipedia</a>`);
                 disable_the_whole_keyboard();
                 $("#next_game").show();
                 $("#stop_game").hide();
@@ -236,7 +243,7 @@ $(document).ready(function(){
 
         updated_keyboard();
 
-        $( "html" ).keypress(real_keyboard_pressed);
+        //$( "html" ).keypress(real_keyboard_pressed);
     };
  
     const stop_game = function() {
@@ -249,8 +256,18 @@ $(document).ready(function(){
         start_game();
     };
 
+    const enable_escape = function(func){
+        $( "html" ).keydown(function (event) {
+            // ESC
+            if (event.which == 27) {
+                func();
+            }
+        });
+    }
+
     const show_about = function() {
         $("#about_modal").addClass('is-active');
+        enable_escape(close_about);
     };
 
     const close_about = function() {
@@ -311,6 +328,7 @@ $(document).ready(function(){
     $("#close_about_modal").click(close_about);
     $("#save_config").click(save_config);
     $("#cancel_config").click(cancel_config);
+    $( "html" ).keypress(real_keyboard_pressed);
 });
 
 // TODO: make the letters on the buttons bigget, but the buttons smaller, make sure they fit in the width of the screen
