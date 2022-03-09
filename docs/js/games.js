@@ -46,15 +46,18 @@ $(document).ready(function(){
                 config["language_id"] = "";
                 show_config();
             } else {
-                load_game(config["game_id"], site_config[config["language_id"]]["file"])
+                load_game()
             }
         }).fail(function(){
             console.log("An error has occurred.");
         });    
     };
 
-    const load_game = function(game, filename) {
-        const url = base_url + game + "/" + filename;
+    const load_game = function() {
+        const game_id = config["game_id"];
+        const language_id = config["language_id"];
+        const filename = site_config[language_id]["file"];
+        const url = base_url + game_id + "/" + filename;
         $.getJSON(url, function(data){
             game_data = data;
             console.log("game_data:", game_data);
@@ -333,7 +336,7 @@ $(document).ready(function(){
         const language_id = $("#language_selector option:selected").val();
         config["language_id"] = language_id;
         config["game_id"] = "hangman";
-        load_game(config["game_id"], site_config[language_id]["file"])
+        load_game()
         save_local_config();
         $('.page').hide();
         $('#mainPage').show(); 
