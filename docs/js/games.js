@@ -9,6 +9,7 @@ $(document).ready(function(){
     let hidden_word = "";
     let expected_letters = [];
     let matched_letters = [];
+    let dictionary = null;
 
     $('.page').hide();
     $('#mainPage').show();
@@ -58,6 +59,7 @@ $(document).ready(function(){
         const language_id = config["language_id"];
         const filename = site_config[language_id]["file"];
         const url = base_url + game_id + "/" + filename;
+        dictionary = null;
         $.getJSON(url, function(data){
             game_data = data;
             console.log("game_data:", game_data);
@@ -67,6 +69,17 @@ $(document).ready(function(){
             //$("#output").html('Error');
             console.log("An error has occurred.");
         });
+
+        if ('dictionary' in site_config[language_id]) {
+            const dictionary_url = site_config[language_id]["dictionary"] + "/target-to-source.json";
+            $.getJSON(dictionary_url, function(data){
+                dictionary = data;
+                console.log("dictionary loaded");
+            }).fail(function(){
+                console.log("Failed to load the dictionary");
+            });
+    
+        }
     };
 
     const generate_word = function() {
@@ -152,7 +165,7 @@ $(document).ready(function(){
     }
 
     const real_keyboard_pressed = function(event) {
-        console.log( event.which );
+        // console.log( event.which );
         // console.log( "á".charCodeAt());
         // console.log( "á".codePointAt());
         let char = String.fromCharCode(event.which);
@@ -166,7 +179,7 @@ $(document).ready(function(){
     };
 
     const handle_char = function(char) {
-        console.log(`pressed: '${char}'`);
+        // console.log(`pressed: '${char}'`);
         if (! keyboard_letters.includes(char)) {
             console.log(`An invalid key ${char} was pressed`)
         }
@@ -190,9 +203,22 @@ $(document).ready(function(){
                 keyboard_status[char] = 'matched';
             }
             if (JSON.stringify(expected_letters)==JSON.stringify(matched_letters)) {
-                $('#message').html("Matched!");
                 $("#wikipedia").attr("href", site_config[config["language_id"]]["wikipedia"] + hidden_word);
                 $("#wikipedia").show();
+                let message = "Matched!";
+                if (dictionary !== null) {
+                    console.log("dictionary");
+                    const dictionary_url = site_config[config["language_id"]]["dictionary"];
+                    if (hidden_word in dictionary){
+                        //console.log(dictionary[hidden_word]);
+                        dictionary[hidden_word].forEach(function(word) {
+                            message += " " + word;
+                        });                       
+                        message += ` <a href="${dictionary_url}/target/${hidden_word}.html" target="_blank">${hidden_word}</a>`;
+                    }
+                }
+
+                $('#message').html(message);
                 disable_the_whole_keyboard();
                 $("#next_game").show();
                 $("#stop_game").hide();
