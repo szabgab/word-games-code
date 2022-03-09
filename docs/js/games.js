@@ -124,15 +124,15 @@ $(document).ready(function(){
         }
         // console.log(html);
         $("#keyboard").html(html);
-        $(".key").click(button_pressed);
+        $(".key").click(virtual_keyboard_pressed);
     };
 
-    const button_pressed = function(event){
+    const virtual_keyboard_pressed = function(event){
         let char = this.innerHTML;
         handle_char(char);
     }
 
-   const keyboard_pressed = function(event) {
+   const real_keyboard_pressed = function(event) {
        // console.log( event.which );
        // console.log( "á".charCodeAt());
        // console.log( "á".codePointAt());
@@ -236,7 +236,7 @@ $(document).ready(function(){
 
         updated_keyboard();
 
-        $( "html" ).keypress(keyboard_pressed);
+        $( "html" ).keypress(real_keyboard_pressed);
     };
  
     const stop_game = function() {
@@ -343,3 +343,6 @@ $(document).ready(function(){
 // TODO: at the end of the game, show a link to the wikipedia entry of the word (if there is one)
 
 // TODO: Indicate language and game when we load the app
+
+// TODO: change the config page to be modal so it will go back to the same place where we started from (well, we might need to load new data and once it is loaded we should go back to the game page if that's where we came from)
+// I am not sure if we need to make it modal, but it looked strange when i clicked on it after i finished a game and then it went back to the main page.
