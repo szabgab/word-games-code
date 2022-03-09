@@ -399,13 +399,9 @@ $(document).ready(function(){
 
 // TODO: make the letters on the buttons bigget, but the buttons smaller, make sure they fit in the width of the screen
 
-// TODO: when all the word was matched, the user wins
-    // replace the stop button by quit button that will reveal the word
-
 // TODO: recognize when the data is not available (yet) or if there was a network error and let the user know.
 
 
-// TODO: Currently when the user first loads the page we set the default language and default game. In the future we'll probably want to first show a banner, then show the list of languages (e.g. the word "welcome" in each language) and let the user select. Then we can let them also pick the game.
 // TODO: Add version numer or released date to the about page.
 // TODO: If there are non-letters in the text, show them as they are
 
@@ -417,13 +413,13 @@ $(document).ready(function(){
 //    when the user finds a word give her money revard (based on the length of the word, the number of different letters, full size of the abc)
 //    if the user runs out of money allow her to ask for more (or buy more)
 
+// TODO: Create some images that can be easily shared by people that also include the link to the site.
+
 // TODO: Allow the user to mark specific games and languages to be available off-line. Then download them and keep them in separate variables or even in the local storage so we can switch to that language game while offline as well
 // TODO: Introduce levels: First level is short and simple words, the higher the level the longer the words or multiword expressions using more complex words. (e.g. in hungarian it might be more simple to have words that only use aeiou vowels and not the umlauted ones.)
 // TODO: Allow people to create word sets for levels and the allow others to select "game" of someone. This could be used by teachers to prepare words based on the level of the students.
 
 // TODO: shall we give some feedback when someone presses a key that is disabled on the virtual keyboard? This is only relevant on a computer, right?
-
-// TODO: at the end of the game, show the translation in English where available.
 
 // TODO: Indicate language and game when we load the app
 
