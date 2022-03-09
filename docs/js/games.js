@@ -190,7 +190,9 @@ $(document).ready(function(){
                 keyboard_status[char] = 'matched';
             }
             if (JSON.stringify(expected_letters)==JSON.stringify(matched_letters)) {
-                $('#message').html(`Matched! <a href="${site_config[config["language_id"]]["wikipedia"]}${hidden_word}" target=_blank>Wikipedia</a>`);
+                $('#message').html("Matched!");
+                $("#wikipedia").attr("href", site_config[config["language_id"]]["wikipedia"] + hidden_word);
+                $("#wikipedia").show();
                 disable_the_whole_keyboard();
                 $("#next_game").show();
                 $("#stop_game").hide();
@@ -243,6 +245,7 @@ $(document).ready(function(){
         $("#stop_game").show();
         $("#hint").show();
         $('#message').html("")
+        $("#wikipedia").hide();
         $('#gamePage').show();
         $('#hint').click(hint);
 
