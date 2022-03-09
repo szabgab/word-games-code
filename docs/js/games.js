@@ -169,6 +169,7 @@ $(document).ready(function(){
                 disable_the_whole_keyboard();
                 $("#next_game").show();
                 $("#stop_game").hide();
+                $(".show_config").show();
                 $("#hint").hide();
             }
         } else {
@@ -213,6 +214,7 @@ $(document).ready(function(){
 
         $('.page').hide();
         $("#next_game").hide();
+        $(".show_config").hide();
         $("#stop_game").show();
         $("#hint").show();
         $('#message').html("")
@@ -304,8 +306,8 @@ $(document).ready(function(){
     $("#start_game").click(start_game);
     $("#stop_game").click(stop_game);
     $("#next_game").click(next_game);
-    $("#show_config").click(show_config);
-    $("#show_about").click(show_about);
+    $(".show_config").click(show_config);
+    $(".show_about").click(show_about);
     $("#close_about_modal").click(close_about);
     $("#save_config").click(save_config);
     $("#cancel_config").click(cancel_config);
