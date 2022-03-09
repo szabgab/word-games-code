@@ -95,16 +95,17 @@ $(document).ready(function(){
         let keyboard = keyboards[keyboard_id];
 
         // ABC keyboard
-        let abc_keyboard = "";
+        let abc_keyboard = [];
         for (let ix = 0; ix < keyboard.length; ix++) {
             let row = keyboard[ix];
             for (let jx = 0; jx < row.length; jx++) {
                 if (keyboard[ix][jx] != " ") {
-                    abc_keyboard += keyboard[ix][jx];
+                    abc_keyboard.push(keyboard[ix][jx]);
                 }
             }
         }
-        keyboard = [abc_keyboard];
+        abc_keyboard.sort();
+        keyboard = [abc_keyboard.join("")];
 
         let html = "";
         for (let ix = 0; ix < keyboard.length; ix++) {
