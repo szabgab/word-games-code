@@ -1,9 +1,6 @@
 $(document).ready(function(){
     const base_url = "https://word-games-data.szabgab.com/";
-    let config = {
-        "language_id": "en",
-        "game_id": "hangman"
-    };
+    let config = {};
     let site_config = {};
     let game_data = {};
     let keyboard_status = {};
@@ -45,7 +42,12 @@ $(document).ready(function(){
         $.getJSON(base_url + "games.json", function(data){
             site_config = data;
             console.log("site_config:", site_config);
-            load_game("hangman", site_config[config["language_id"]]["file"])
+            if (Object.keys(config).length === 0) {
+                config["language_id"] = "";
+                show_config();
+            } else {
+                load_game(config["game_id"], site_config[config["language_id"]]["file"])
+            }
         }).fail(function(){
             console.log("An error has occurred.");
         });    
@@ -293,6 +295,15 @@ $(document).ready(function(){
 
         let language_options = "";
         let languages = Object.keys(site_config);
+        if (config["language_id"] == "") {
+            language_options += `<option selected></a>`;
+            $("#welcome-text").show();
+            $("#save_config").prop("disabled", true);
+            $("#cancel_config").prop("disabled", true);
+        } else {
+            $("#save_config").prop("disabled", false);
+            $("#cancel_config").prop("disabled", false);
+        }
         for (let ix=0; ix < languages.length; ix++) {
             let language_id = languages[ix];
             language_options += `<option value="${language_id}" `;
@@ -301,7 +312,15 @@ $(document).ready(function(){
         }
         // console.log(language_options);
         $("#language_selector").html(language_options);
-
+        if (config["language_id"] == "") {
+            $("#language_selector").change(function() {
+                if ($("#language_selector").val() != "") {
+                    $("#save_config").prop("disabled", false);
+                } else {
+                    $("#save_config").prop("disabled", true);
+                }
+            });
+        }
         $('#configPage').show();
     };
 
@@ -313,7 +332,8 @@ $(document).ready(function(){
     const save_config = function() {
         const language_id = $("#language_selector option:selected").val();
         config["language_id"] = language_id;
-        load_game("hangman", site_config[language_id]["file"])
+        config["game_id"] = "hangman";
+        load_game(config["game_id"], site_config[language_id]["file"])
         save_local_config();
         $('.page').hide();
         $('#mainPage').show(); 
@@ -323,6 +343,7 @@ $(document).ready(function(){
         let config_str = localStorage.getItem('word_games');
         if (config_str !== null) {
             config = JSON.parse(config_str);
+            first_load = false;
         }
         console.log("local_config", config);
     };
