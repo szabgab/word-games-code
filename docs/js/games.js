@@ -94,6 +94,18 @@ $(document).ready(function(){
         const keyboard_id = site_config[language_id]["keyboard_id"];
         let keyboard = keyboards[keyboard_id];
 
+        // ABC keyboard
+        let abc_keyboard = "";
+        for (let ix = 0; ix < keyboard.length; ix++) {
+            let row = keyboard[ix];
+            for (let jx = 0; jx < row.length; jx++) {
+                if (keyboard[ix][jx] != " ") {
+                    abc_keyboard += keyboard[ix][jx];
+                }
+            }
+        }
+        keyboard = [abc_keyboard];
+
         let html = "";
         for (let ix = 0; ix < keyboard.length; ix++) {
             html += `<div class="keyboard row">`;
@@ -358,7 +370,6 @@ $(document).ready(function(){
 // TODO: shall we give some feedback when someone presses a key that is disabled on the virtual keyboard? This is only relevant on a computer, right?
 
 // TODO: at the end of the game, show the translation in English where available.
-// TODO: at the end of the game, show a link to the wikipedia entry of the word (if there is one)
 
 // TODO: Indicate language and game when we load the app
 
