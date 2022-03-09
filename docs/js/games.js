@@ -167,6 +167,9 @@ $(document).ready(function(){
             if (JSON.stringify(expected_letters)==JSON.stringify(matched_letters)) {
                 $('#message').html("Matched!");
                 disable_the_whole_keyboard();
+                $("#next_game").show();
+                $("#stop_game").hide();
+                $("#hint").hide();
             }
         } else {
             keyboard_status[char] = 'wrong';
@@ -209,8 +212,11 @@ $(document).ready(function(){
         used_letters = [];
 
         $('.page').hide();
-        $('#gamePage').show();
+        $("#next_game").hide();
+        $("#stop_game").show();
+        $("#hint").show();
         $('#message').html("")
+        $('#gamePage').show();
         $('#hint').click(hint);
 
         let category;
@@ -237,6 +243,9 @@ $(document).ready(function(){
         $( "html" ).off("keypress");
     };
 
+    const next_game = function() {
+        start_game();
+    };
 
     const show_about = function() {
         $("#about_modal").addClass('is-active');
@@ -294,6 +303,7 @@ $(document).ready(function(){
     load_site_config();
     $("#start_game").click(start_game);
     $("#stop_game").click(stop_game);
+    $("#next_game").click(next_game);
     $("#show_config").click(show_config);
     $("#show_about").click(show_about);
     $("#close_about_modal").click(close_about);
@@ -303,10 +313,8 @@ $(document).ready(function(){
 
 // TODO: make the letters on the buttons bigget, but the buttons smaller, make sure they fit in the width of the screen
 
-// TODO: when all the word was matched, the user wins - disable or hide hint button
-    // TODO show the "Next" button
-    // TODO show the "Home" button
-    // TODO hide the "Quit" button
+// TODO: when all the word was matched, the user wins
+    // replace the stop button by quit button that will reveal the word
 
 // TODO: recognize when the data is not available (yet) or if there was a network error and let the user know.
 
@@ -331,3 +339,5 @@ $(document).ready(function(){
 
 // TODO: at the end of the game, show the translation in English where available.
 // TODO: at the end of the game, show a link to the wikipedia entry of the word (if there is one)
+
+// TODO: Indicate language and game when we load the app
