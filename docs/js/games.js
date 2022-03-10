@@ -102,7 +102,12 @@ $(document).ready(function(){
         let keyboard_letters_str = keyboard.join("");
         keyboard_letters_str = keyboard_letters_str.replace(/\s/g, "");
         keyboard_letters = keyboard_letters_str.split("");
-
+        let direction = "lrt";
+        if ("dir" in site_config[config["language_id"]]) {
+            direction = site_config[config["language_id"]]["dir"]
+        }
+        $("#keyboard").attr("dir", direction);
+        $("#word").attr("dir", direction);
     };
 
     const updated_keyboard = function() {
