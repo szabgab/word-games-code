@@ -40,7 +40,8 @@ $(document).ready(function(){
     }
 
     const load_site_config = function() {
-        $.getJSON(`${base_url}/games.json`, function(data){
+        const url = `${base_url}/games.json`;
+        $.getJSON(url, function(data){
             site_config = data;
             $("title").html(`${site_config["meta"]["prefix"]}Word Games`);
             $("#release_date").html(site_config["meta"]["release_date"]);
@@ -52,7 +53,7 @@ $(document).ready(function(){
                 load_game()
             }
         }).fail(function(){
-            console.log("An error has occurred.");
+            console.log(`An error has occurred while loading from ${url}.`);
         });    
     };
 
@@ -67,9 +68,10 @@ $(document).ready(function(){
             console.log("game_data:", game_data);
             //$("#output").html("Loaded");
             setup_game();
-        }).fail(function(){
+        }).fail(function(err){
             //$("#output").html('Error');
-            console.log("An error has occurred.");
+            console.log(err);
+            console.log(`An error has occurred while loading from ${url}.`);
         });
 
         if ('dictionary' in site_config["games"][language_id]) {
@@ -78,7 +80,7 @@ $(document).ready(function(){
                 dictionary = data;
                 console.log("dictionary loaded");
             }).fail(function(){
-                console.log("Failed to load the dictionary");
+                console.log(`Failed to load the dictionary from ${dictionary_url}`);
             });
     
         }
