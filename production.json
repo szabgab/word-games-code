@@ -24,7 +24,7 @@
         },
         "fr": {
             "file": "fr.json",
-            "keyboard_id": "en",
+            "keyboard_id": "fr",
             "name": "French",
             "source": "https://codeberg.org/kate/word-games-french",
             "wikipedia": "https://fr.wikipedia.org/wiki/"
