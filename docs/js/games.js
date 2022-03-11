@@ -57,7 +57,7 @@ $(document).ready(function(){
     const load_game = function() {
         const game_id = config["game_id"];
         const language_id = config["language_id"];
-        const filename = site_config[language_id]["file"];
+        const filename = site_config["games"][language_id]["file"];
         const url = `${base_url}/data/${game_id}/${filename}`;
         dictionary = null;
         $.getJSON(url, function(data){
@@ -70,8 +70,8 @@ $(document).ready(function(){
             console.log("An error has occurred.");
         });
 
-        if ('dictionary' in site_config[language_id]) {
-            const dictionary_url = site_config[language_id]["dictionary"] + "/target-to-source.json";
+        if ('dictionary' in site_config["games"][language_id]) {
+            const dictionary_url = site_config["games"][language_id]["dictionary"] + "/target-to-source.json";
             $.getJSON(dictionary_url, function(data){
                 dictionary = data;
                 console.log("dictionary loaded");
@@ -97,14 +97,14 @@ $(document).ready(function(){
     const setup_game = function() {
         console.log("setup_game");
 
-        const keyboard_id = site_config[config["language_id"]]["keyboard_id"]
+        const keyboard_id = site_config["games"][config["language_id"]]["keyboard_id"]
         let keyboard = keyboards[keyboard_id];
         let keyboard_letters_str = keyboard.join("");
         keyboard_letters_str = keyboard_letters_str.replace(/\s/g, "");
         keyboard_letters = keyboard_letters_str.split("");
         let direction = "lrt";
-        if ("dir" in site_config[config["language_id"]]) {
-            direction = site_config[config["language_id"]]["dir"]
+        if ("dir" in site_config["games"][config["language_id"]]) {
+            direction = site_config["games"][config["language_id"]]["dir"]
         }
         $("#keyboard").attr("dir", direction);
         $("#word").attr("dir", direction);
@@ -114,7 +114,7 @@ $(document).ready(function(){
         console.log("update_keyboard");
         const language_id = config["language_id"];
         // console.log("language_id:", language_id);
-        const keyboard_id = site_config[language_id]["keyboard_id"];
+        const keyboard_id = site_config["games"][language_id]["keyboard_id"];
         let keyboard = keyboards[keyboard_id];
 
         // ABC keyboard
@@ -208,12 +208,12 @@ $(document).ready(function(){
                 keyboard_status[char] = 'matched';
             }
             if (JSON.stringify(expected_letters)==JSON.stringify(matched_letters)) {
-                $("#wikipedia").attr("href", site_config[config["language_id"]]["wikipedia"] + hidden_word);
+                $("#wikipedia").attr("href", site_config["games"][config["language_id"]]["wikipedia"] + hidden_word);
                 $("#wikipedia").show();
                 let message = "Matched!";
                 if (dictionary !== null) {
                     console.log("dictionary");
-                    const dictionary_url = site_config[config["language_id"]]["dictionary"];
+                    const dictionary_url = site_config["games"][config["language_id"]]["dictionary"];
                     if (hidden_word in dictionary){
                         //console.log(dictionary[hidden_word]);
                         dictionary[hidden_word].forEach(function(word) {
@@ -331,7 +331,7 @@ $(document).ready(function(){
         $('.page').hide();
 
         let language_options = "";
-        let languages = Object.keys(site_config);
+        let languages = Object.keys(site_config["games"]);
         if (config["language_id"] == "") {
             language_options += `<option selected></a>`;
             $("#welcome-text").show();
@@ -345,7 +345,7 @@ $(document).ready(function(){
             let language_id = languages[ix];
             language_options += `<option value="${language_id}" `;
             language_options += (language_id == config["language_id"] ? "selected" : "");
-            language_options += `>${site_config[language_id]["name"]}</option>`;
+            language_options += `>${site_config["games"][language_id]["name"]}</option>`;
         }
         // console.log(language_options);
         $("#language_selector").html(language_options);

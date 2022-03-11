@@ -1,32 +1,38 @@
 {
-    "hu": {
-        "name": "Magyar",
-        "file": "hu.json",
-        "wikipedia": "https://hu.wikipedia.org/wiki/",
-        "keyboard_id": "hu"
+    "meta": {
+        "prefix": "dev",
+        "release_date": "development version"
     },
-    "he": {
-        "name": "עברית",
-        "dir": "rtl",
-        "file": "he.json",
-        "wikipedia": "https://he.wikipedia.org/wiki/",
-        "keyboard_id": "he"
-    },
-    "lowercase": {
-        "name": "Lowercase",
-        "file": "lowercase.json",
-        "keyboard_id": "en"
-    },
-    "mixedcase": {
-        "name": "Mixedcase",
-        "file": "mixedcase.json",
-        "keyboard_id": "en"
-    },
-    "lad": {
-        "name": "Ladino",
-        "file": "ladino.json",
-        "wikipedia": "https://lad.wikipedia.org/wiki/",
-        "dictionary": "https://lili.szabgab.com/ladino-from-english",
-        "keyboard_id": "ladino"
-    }
+    "games": {
+        "hu": {
+            "name": "Magyar",
+            "file": "hu.json",
+            "wikipedia": "https://hu.wikipedia.org/wiki/",
+            "keyboard_id": "hu"
+        },
+        "he": {
+            "name": "עברית",
+            "dir": "rtl",
+            "file": "he.json",
+            "wikipedia": "https://he.wikipedia.org/wiki/",
+            "keyboard_id": "he"
+        },
+        "lowercase": {
+            "name": "Lowercase",
+            "file": "lowercase.json",
+            "keyboard_id": "en"
+        },
+        "mixedcase": {
+            "name": "Mixedcase",
+            "file": "mixedcase.json",
+            "keyboard_id": "en"
+        },
+        "lad": {
+            "name": "Ladino",
+            "file": "ladino.json",
+            "wikipedia": "https://lad.wikipedia.org/wiki/",
+            "dictionary": "https://lili.szabgab.com/ladino-from-english",
+            "keyboard_id": "ladino"
+        }
+    }    
 }
