@@ -22,6 +22,13 @@
             "source": "https://github.com/szabgab/word-games-hungarian",
             "wikipedia": "https://hu.wikipedia.org/wiki/"
         },
+        "fr": {
+            "file": "fr.json",
+            "keyboard_id": "en",
+            "name": "French",
+            "source": "https://codeberg.org/kate/word-games-french",
+            "wikipedia": "https://fr.wikipedia.org/wiki/"
+        },
         "lad": {
             "dictionary": "https://lili.szabgab.com/ladino-from-english",
             "file": "ladino.json",
