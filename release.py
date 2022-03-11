@@ -53,7 +53,13 @@ def copy_data(target_path):
         os.chdir(tdir)
         os.system(f"git clone {repo} temp")
         os.system("ls -l")
-        shutil.copy(os.path.join('temp', "categories.json"), os.path.join(target_path, 'docs', 'data', 'categories', cfg['file']))
+        categories_file = os.path.join('temp', "categories.json")
+        try:
+            with open(categories_file) as fh:
+                json.load(fh)
+            shutil.copy(categories_file, os.path.join(target_path, 'docs', 'data', 'categories', cfg['file']))
+        except Exception as err:
+            print(err)
         os.chdir(cwd)
         shutil.rmtree(tdir)
 
