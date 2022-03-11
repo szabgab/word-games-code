@@ -36,7 +36,12 @@ $(document).ready(function(){
             "    asdfghjkléáű",
             "      zxcvbnm"
 
-        ]
+        ],
+        "fr": [
+            "abcdefghijklmno",
+            "pqrstuvwxyz",
+            "àâäæçèéêëîïôœùûü"
+        ],
     }
 
     const load_site_config = function() {
