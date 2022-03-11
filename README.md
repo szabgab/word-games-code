@@ -13,12 +13,25 @@ For now any static web server will do. Clone this repository and launch the stat
 
 There are some sample data files in the `docs/data` folder and they are mapped in the `docs/games.json` file.
 
+## Some of the Data Sources:
+
+* [English](https://github.com/szabgab/word-games-english)
+* [Hungarian]()
+* [Hebrew]()
+* [Ladino]()
+
+For additional data sources see the `production.json` file.
+
 ## Adding a new language:
 
-* Create a repository (for now we use repository names `word-games-LANGUAGE`) but any name could work. See the `production.json` file for a list of the already mapped repositories. In the repository there should be a LICENSE file to make sure
-we can reuse the data in the project. The data is in a JSON file.
+* Create a repository (for now we use repository names `word-games-LANGUAGE`) but any name could work. It does not have to be on GitHub but we need to be able to clone it without authentiaction.
+* In the repository there should be a LICENSE file to make sure we can reuse the data in the project.
+* The data is in a JSON file.
+* Once such repository and the data file is created the information can be added to the `production.json` file.
 
-* Once such repository and such file is created the information can be added to the `production.json` file.
+* Trying the new language locally
+
+TBD
 
 ## Keyboards
 
