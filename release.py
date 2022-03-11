@@ -37,7 +37,7 @@ def copy_data(target_path):
         config = json.load(fh)
     # print(config)
     cwd = os.getcwd()
-    for cfg in config.values():
+    for cfg in config["games"].values():
         #print(cfg)
         repo = cfg['source']
         print(repo)
