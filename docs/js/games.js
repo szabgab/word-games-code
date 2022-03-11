@@ -42,6 +42,7 @@ $(document).ready(function(){
     const load_site_config = function() {
         $.getJSON(`${base_url}/games.json`, function(data){
             site_config = data;
+            $("title").html(`${site_config["meta"]["prefix"]}Word Games`);
             console.log("site_config:", site_config);
             if (Object.keys(config).length === 0) {
                 config["language_id"] = "";

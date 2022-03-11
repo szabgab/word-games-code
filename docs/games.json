@@ -32,7 +32,7 @@
         }
     },
     "meta": {
-        "prefix": "dev",
+        "prefix": "dev - ",
         "release_date": "development version"
     }
 }
