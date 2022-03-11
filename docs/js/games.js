@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    const base_url = "https://word-games-data.szabgab.com/";
+    const base_url = "";
     let config = {};
     let site_config = {};
     let game_data = {};
@@ -40,7 +40,7 @@ $(document).ready(function(){
     }
 
     const load_site_config = function() {
-        $.getJSON(base_url + "games.json", function(data){
+        $.getJSON(`${base_url}/games.json`, function(data){
             site_config = data;
             console.log("site_config:", site_config);
             if (Object.keys(config).length === 0) {
@@ -58,7 +58,7 @@ $(document).ready(function(){
         const game_id = config["game_id"];
         const language_id = config["language_id"];
         const filename = site_config[language_id]["file"];
-        const url = base_url + game_id + "/" + filename;
+        const url = `${base_url}/data/${game_id}/${filename}`;
         dictionary = null;
         $.getJSON(url, function(data){
             game_data = data;
@@ -369,7 +369,7 @@ $(document).ready(function(){
     const save_config = function() {
         const language_id = $("#language_selector option:selected").val();
         config["language_id"] = language_id;
-        config["game_id"] = "hangman";
+        config["game_id"] = "categories";
         load_game()
         save_local_config();
         $('.page').hide();
