@@ -1,32 +1,38 @@
 {
-    "hu": {
-        "name": "Magyar",
-        "file": "hu.json",
-        "wikipedia": "https://hu.wikipedia.org/wiki/",
-        "keyboard_id": "hu",
-        "source": "https://github.com/szabgab/word-games-hungarian"
+    "meta": {
+        "prefix": "",
+        "release_date": ""
     },
-    "he": {
-        "name": "עברית",
-        "dir": "rtl",
-        "file": "he.json",
-        "wikipedia": "https://he.wikipedia.org/wiki/",
-        "keyboard_id": "he",
-        "source": "https://github.com/szabgab/word-games-hebrew"
-    },
-    "en": {
-        "name": "English",
-        "file": "en.json",
-        "wikipedia": "https://en.wikipedia.org/wiki/",
-        "keyboard_id": "en",
-        "source": "https://github.com/szabgab/word-games-english"
-    },
-    "lad": {
-        "name": "Ladino",
-        "file": "ladino.json",
-        "wikipedia": "https://lad.wikipedia.org/wiki/",
-        "dictionary": "https://lili.szabgab.com/ladino-from-english",
-        "keyboard_id": "ladino",
-        "source": "https://github.com/szabgab/word-games-ladino"
+    "games": {
+        "hu": {
+            "name": "Magyar",
+            "file": "hu.json",
+            "wikipedia": "https://hu.wikipedia.org/wiki/",
+            "keyboard_id": "hu",
+            "source": "https://github.com/szabgab/word-games-hungarian"
+        },
+        "he": {
+            "name": "עברית",
+            "dir": "rtl",
+            "file": "he.json",
+            "wikipedia": "https://he.wikipedia.org/wiki/",
+            "keyboard_id": "he",
+            "source": "https://github.com/szabgab/word-games-hebrew"
+        },
+        "en": {
+            "name": "English",
+            "file": "en.json",
+            "wikipedia": "https://en.wikipedia.org/wiki/",
+            "keyboard_id": "en",
+            "source": "https://github.com/szabgab/word-games-english"
+        },
+        "lad": {
+            "name": "Ladino",
+            "file": "ladino.json",
+            "wikipedia": "https://lad.wikipedia.org/wiki/",
+            "dictionary": "https://lili.szabgab.com/ladino-from-english",
+            "keyboard_id": "ladino",
+            "source": "https://github.com/szabgab/word-games-ladino"
+        }
     }
 }
