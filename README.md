@@ -46,3 +46,8 @@ The production site at https://word-games.szabgab.com/ is using GitHub pages.
 It is served from a private repository as it only contains the generated and the CI job that
 generates it using the `release.py` in this repository. It collects all the data files described in
 the `production.json` file.
+
+## Contributors
+
+* [Kate](https://codeberg.org/kate/) - French
+* [Gabor Szabo](https://szabgab.com/) - code, English, Hebrew, Hungarian, Ladino
