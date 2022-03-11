@@ -53,7 +53,7 @@ $(document).ready(function(){
                 load_game()
             }
         }).fail(function(){
-            console.log(`An error has occurred while loading from ${url}.`);
+            console.log(`An error has occurred while loading from ${url}`);
         });    
     };
 
@@ -71,7 +71,7 @@ $(document).ready(function(){
         }).fail(function(err){
             //$("#output").html('Error');
             console.log(err);
-            console.log(`An error has occurred while loading from ${url}.`);
+            console.log(`An error has occurred while loading from ${url}`);
         });
 
         if ('dictionary' in site_config["games"][language_id]) {
