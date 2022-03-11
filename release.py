@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import datetime
 import json
 import os
 import shutil
@@ -33,9 +34,15 @@ def copy_config(root, environment, target_path):
 # copy the data files from the various other repositories
 # check the data before copying them?
 def copy_data(target_path):
-    with open(os.path.join(target_path, 'docs', 'games.json')) as fh:
+    config_file = os.path.join(target_path, 'docs', 'games.json')
+    with open(config_file) as fh:
         config = json.load(fh)
     # print(config)
+    config["meta"]["release_date"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    with open(config_file, "w") as fh:
+        json.dump(config, fh, sort_keys=True, indent=4, separators=(',', ': '), ensure_ascii=False)
+
     cwd = os.getcwd()
     for cfg in config["games"].values():
         #print(cfg)
