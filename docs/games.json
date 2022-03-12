@@ -4,13 +4,15 @@
             "dir": "rtl",
             "file": "he.json",
             "keyboard_id": "he",
-            "name": "עברית",
+            "name": "Hebrew",
+            "xname": "עברית",
             "wikipedia": "https://he.wikipedia.org/wiki/"
         },
         "hu": {
             "file": "hu.json",
             "keyboard_id": "hu",
-            "name": "Magyar",
+            "name": "Hungarian",
+            "xname": "Magyar",
             "wikipedia": "https://hu.wikipedia.org/wiki/"
         },
         "lad": {
@@ -18,17 +20,20 @@
             "file": "ladino.json",
             "keyboard_id": "ladino",
             "name": "Ladino",
+            "xname": "Espanyol",
             "wikipedia": "https://lad.wikipedia.org/wiki/"
         },
         "lowercase": {
             "file": "lowercase.json",
             "keyboard_id": "en",
-            "name": "Lowercase"
+            "name": "Lowercase",
+            "xname": "LC"
         },
         "mixedcase": {
             "file": "mixedcase.json",
             "keyboard_id": "en",
-            "name": "Mixedcase"
+            "name": "Mixedcase",
+            "xname": "MC"
         }
     },
     "meta": {

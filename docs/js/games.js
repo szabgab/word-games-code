@@ -74,8 +74,8 @@ $(document).ready(function(){
             } else {
                 load_game()
             }
-        }).fail(function(){
-            console.log(`An error has occurred while loading from ${url}`);
+        }).fail(function(jqxhr, textStatus, error){
+            console.log(`An error has occurred while loading from ${url} ${error}`);
         });    
     };
 
@@ -387,7 +387,7 @@ $(document).ready(function(){
             let language_id = languages[ix];
             language_options += `<option value="${language_id}" `;
             language_options += (language_id == config["language_id"] ? "selected" : "");
-            language_options += `>${site_config["games"][language_id]["name"]}</option>`;
+            language_options += `>${site_config["games"][language_id]["name"]} - ${site_config["games"][language_id]["xname"]}</option>`;
         }
         // console.log(language_options);
         $("#language_selector").html(language_options);
