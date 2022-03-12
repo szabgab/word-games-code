@@ -29,6 +29,13 @@
             "source": "https://codeberg.org/kate/word-games-french",
             "wikipedia": "https://fr.wikipedia.org/wiki/"
         },
+        "de": {
+            "file": "de.json",
+            "keyboard_id": "de",
+            "name": "German",
+            "source": "https://codeberg.org/kate/word-games-german",
+            "wikipedia": "https://de.wikipedia.org/wiki/"
+        },
         "lad": {
             "dictionary": "https://lili.szabgab.com/ladino-from-english",
             "file": "ladino.json",

@@ -49,5 +49,5 @@ the `production.json` file.
 
 ## Contributors
 
-* [Kate](https://codeberg.org/kate/) - French
+* [Kate](https://codeberg.org/kate/) - French, German
 * [Gabor Szabo](https://szabgab.com/) - code, English, Hebrew, Hungarian, Ladino

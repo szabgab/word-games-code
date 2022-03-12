@@ -38,9 +38,15 @@ $(document).ready(function(){
 
         ],
         "fr": [
-            "abcdefghijklmno",
-            "pqrstuvwxyz",
-            "àâäæçèéêëîïôœùûü"
+            "azertyuiop",
+            "  qsdfghjklmù",
+            "    wxcvbnàâäæçè",
+            "      éêëîïôœûü"
+        ],
+        "de": [
+            "qwertzuiopü",
+            "  asdfghjklöä",
+            "    yxcvbnmß"
         ],
     }
 
