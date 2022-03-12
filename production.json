@@ -11,14 +11,14 @@
             "dir": "rtl",
             "file": "he.json",
             "keyboard_id": "he",
-            "name": "עברית",
+            "name": "Hebrew",
             "source": "https://github.com/szabgab/word-games-hebrew",
             "wikipedia": "https://he.wikipedia.org/wiki/"
         },
         "hu": {
             "file": "hu.json",
             "keyboard_id": "hu",
-            "name": "Magyar",
+            "name": "Hungarian",
             "source": "https://github.com/szabgab/word-games-hungarian",
             "wikipedia": "https://hu.wikipedia.org/wiki/"
         },
