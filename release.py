@@ -43,8 +43,9 @@ def copy_data(target_path):
     with open(config_file, "w") as fh:
         json.dump(config, fh, sort_keys=True, indent=4, separators=(',', ': '), ensure_ascii=False)
 
+    stats = {}
     cwd = os.getcwd()
-    for cfg in config["games"].values():
+    for id, cfg in config["games"].items():
         #print(cfg)
         repo = cfg['source']
         print(repo)
@@ -56,13 +57,19 @@ def copy_data(target_path):
         categories_file = os.path.join('temp', "categories.json")
         try:
             with open(categories_file) as fh:
-                json.load(fh)
+                categories = json.load(fh)
             shutil.copy(categories_file, os.path.join(target_path, 'docs', 'data', 'categories', cfg['file']))
         except Exception as err:
             print(err)
+        stats[id] = {
+            "categories": len(categories.keys()),
+            "words": sum([len(words) for words in categories.values()]),
+        }
+
         os.chdir(cwd)
         shutil.rmtree(tdir)
-
+    with open(os.path.join(target_path, 'docs', 'data', 'stats.json'), "w") as fh:
+        json.dump(stats, fh, sort_keys=True, indent=4, separators=(',', ': '), ensure_ascii=False)
 
 
 main()

@@ -10,6 +10,7 @@ $(document).ready(function(){
     let expected_letters = [];
     let matched_letters = [];
     let dictionary = null;
+    let stats = {};
 
     $('.page').hide();
     $('#mainPage').show();
@@ -49,6 +50,16 @@ $(document).ready(function(){
             "    yxcvbnmß"
         ],
     }
+
+    const load_site_stats = function() {
+        const url = `${base_url}/data/stats.json`;
+        $.getJSON(url, function(data){
+            stats = data;
+        }).fail(function(){
+            console.log(`An error has occurred while loading from ${url}`);
+        });    
+    };
+
 
     const load_site_config = function() {
         const url = `${base_url}/games.json`;
@@ -333,7 +344,23 @@ $(document).ready(function(){
     }
 
     const show_about = function() {
+        console.log('show_about');
+
         $("#about_modal").addClass('is-active');
+        const languages = Object.keys(stats);
+        let html = `<table class="table">`;
+        html += `<thead><tr><th>Language</th><th>Categories</th><th>Words</th></tr></thead>\n`;
+        html += "<tbody>\n";
+        for (let ix=0; ix < languages.length; ix++) {
+            const language_id = languages[ix];
+            console.log(language_id);
+            const language = site_config["games"][language_id]["name"];
+            html += `<tr><td>${language}</td><td>${stats[language_id]["categories"]}</td><td>${stats[language_id]["words"]}</td></tr>\n`
+        }
+        html += "</tbody>\n";
+        html += "</table>";
+        $("#stats").html(html);
+        console.log(html);
         enable_escape(close_about);
     };
 
@@ -406,6 +433,7 @@ $(document).ready(function(){
 
     load_local_config();
     load_site_config();
+    load_site_stats();
     $("#start_game").click(start_game);
     $("#stop_game").click(stop_game);
     $("#next_game").click(next_game);
