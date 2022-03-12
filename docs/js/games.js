@@ -210,7 +210,8 @@ $(document).ready(function(){
     };
 
     const handle_char = function(char) {
-        // console.log(`pressed: '${char}'`);
+        console.log(`pressed: '${char}'`);
+        char = char.toLowerCase();
         if (! keyboard_letters.includes(char)) {
             console.log(`An invalid key ${char} was pressed`)
         }
@@ -221,16 +222,25 @@ $(document).ready(function(){
             return;
         }
         // console.log(`checking ${char}`);
-        if (expected_letters.includes(char)) {
+        if (expected_letters.includes(char) || expected_letters.includes(char.toUpperCase())) {
             let ix = -1
             while (true) {
-                ix = expected_letters.indexOf(char, ix+1)
-                // console.log(ix);
-                if (ix == -1) {
-                    break
+                const lower = expected_letters.indexOf(char, ix+1);
+                const upper = expected_letters.indexOf(char.toUpperCase(), ix+1);
+                if (lower == -1 && upper == -1) {
+                    break;
                 }
-                $(`#button_${ix}`).html(char);
-                matched_letters[ix] = char;
+                if (lower == -1) {
+                    ix = upper;
+                } else if (upper == -1) {
+                    ix = lower;
+                } else {
+                    ix = Math.min(upper, lower);
+                }
+                console.log(ix);
+                $(`#button_${ix}`).html(expected_letters[ix]);
+                console.log("expected: ", expected_letters[ix]);
+                matched_letters[ix] = expected_letters[ix];
                 keyboard_status[char] = 'matched';
             }
             if (JSON.stringify(expected_letters)==JSON.stringify(matched_letters)) {
