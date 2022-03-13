@@ -291,7 +291,7 @@ $(document).ready(function(){
             if (expected_letters[ix] != matched_letters[ix]) {
                 handle_char(expected_letters[ix]);
                 //console.log(ix, expected_letters[ix])
-                return;
+                break;
             }
         }
     };
