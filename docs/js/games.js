@@ -337,6 +337,8 @@ $(document).ready(function(){
     const stop_game = function() {
         $('.page').hide();
         $('#mainPage').show();
+        $(".show_config").show();
+        $(".show_about").show();
         $( "html" ).off("keypress");
     };
 
