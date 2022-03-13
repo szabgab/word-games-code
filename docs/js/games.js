@@ -324,8 +324,18 @@ $(document).ready(function(){
 
         let html = "";
         for (let ix = 0; ix < expected_letters.length; ix++) {
-            matched_letters.push("")
-            html += `<button class="button letter" id="button_${ix}"></button>`;
+            //console.log(expected_letters[ix]);
+            let display = "";
+            if (expected_letters[ix] == " " || expected_letters[ix] == "-") {
+                //console.log('save');
+                display = expected_letters[ix];
+                matched_letters.push(expected_letters[ix]);
+                html += `<span class="placeholder">${display}</span>`;
+            } else {
+                matched_letters.push("");
+                html += `<button class="button letter" id="button_${ix}">${display}</button>`;
+            }
+
         }
         $("#word").html(html);
 
