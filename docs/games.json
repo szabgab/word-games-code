@@ -34,6 +34,18 @@
             "keyboard_id": "en",
             "name": "Mixedcase",
             "xname": "MC"
+        },
+        "dash": {
+            "file": "dash.json",
+            "keyboard_id": "en",
+            "name": "Has dash",
+            "xname": "dash"
+        },
+        "spaces": {
+            "file": "space.json",
+            "keyboard_id": "en",
+            "name": "Spaces",
+            "xname": "sp"
         }
     },
     "meta": {
