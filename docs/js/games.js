@@ -11,6 +11,8 @@ $(document).ready(function(){
     let matched_letters = [];
     let dictionary = null;
     let stats = {};
+    let remaining_failures;
+    let remaining_hints;
 
     $('.page').hide();
     $('#mainPage').show();
@@ -246,31 +248,40 @@ $(document).ready(function(){
             if (JSON.stringify(expected_letters)==JSON.stringify(matched_letters)) {
                 $("#wikipedia").attr("href", site_config["games"][config["language_id"]]["wikipedia"] + hidden_word);
                 $("#wikipedia").show();
-                let message = "Matched!";
-                if (dictionary !== null) {
-                    console.log("dictionary");
-                    const dictionary_url = site_config["games"][config["language_id"]]["dictionary"];
-                    if (hidden_word in dictionary){
-                        //console.log(dictionary[hidden_word]);
-                        dictionary[hidden_word].forEach(function(word) {
-                            message += " " + word;
-                        });                       
-                        message += ` <a href="${dictionary_url}/target/${hidden_word}.html" target="_blank">${hidden_word}</a>`;
-                    }
-                }
-
-                $('#message').html(message);
-                disable_the_whole_keyboard();
-                $("#next_game").show();
-                $("#stop_game").hide();
-                $(".show_config").show();
-                $("#hint").hide();
+                end_game("Matched!");
             }
         } else {
+            remaining_failures--;
+            $("#fails").html(`Fails (${remaining_failures})`)
             keyboard_status[char] = 'wrong';
+            if (remaining_failures <= 0) {
+                end_game("Failed!");
+            }
         }
         used_letters.push(char);
         updated_keyboard();
+    };
+
+    const end_game = function(message) {
+        if (dictionary !== null) {
+            console.log("dictionary");
+            const dictionary_url = site_config["games"][config["language_id"]]["dictionary"];
+            if (hidden_word in dictionary){
+                //console.log(dictionary[hidden_word]);
+                dictionary[hidden_word].forEach(function(word) {
+                    message += " " + word;
+                });                       
+                message += ` <a href="${dictionary_url}/target/${hidden_word}.html" target="_blank">${hidden_word}</a>`;
+            }
+        }
+
+        $('#message').html(message);
+        disable_the_whole_keyboard();
+        $("#next_game").show();
+        $("#stop_game").hide();
+        $(".show_config").show();
+        $("#hint").hide();
+
     };
 
     const disable_the_whole_keyboard = function() {
@@ -294,6 +305,11 @@ $(document).ready(function(){
                 break;
             }
         }
+        remaining_hints--;
+        $("#hint").html(`Hint (${remaining_hints})`)
+        if (remaining_hints <= 0) {
+            $("#hint").prop("disabled", true);
+        }
     };
 
     const start_game = function() {
@@ -305,7 +321,12 @@ $(document).ready(function(){
         }
         matched_letters = [];
         used_letters = [];
+        remaining_failures = 7;
+        remaining_hints = 2;
+        $("#hint").html(`Hint (${remaining_hints})`)
+        $("#fails").html(`Fails (${remaining_failures})`)
 
+        $("#hint").prop("disabled", false);
         $('.page').hide();
         $("#next_game").hide();
         $(".show_config").hide();
