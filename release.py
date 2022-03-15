@@ -16,7 +16,7 @@ def main():
 
     copy_code(root, target_path)
     copy_cname(target_path)
-    copy_data(target_path)
+    copy_data(root, environment, target_path)
 
 
 def copy_code(root, target_path):
