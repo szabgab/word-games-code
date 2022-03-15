@@ -36,9 +36,10 @@ def copy_data(root, environment, target_path):
 
     with open(original_config_file) as fh:
         config = json.load(fh)
-
+    new_config = {}
     # print(config)
     config["meta"]["release_date"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    new_config["meta"] = config["meta"]
 
     stats = {}
     cwd = os.getcwd()
@@ -58,12 +59,12 @@ def copy_data(root, environment, target_path):
             shutil.copy(categories_file, os.path.join(target_path, 'docs', 'data', 'categories', cfg['file']))
         except Exception as err:
             print(err)
-            del config["games"][id]
             continue
         stats[id] = {
             "categories": len(categories.keys()),
             "words": sum([len(words) for words in categories.values()]),
         }
+        new_config = config["games"][id]
 
         os.chdir(cwd)
         shutil.rmtree(tdir)
