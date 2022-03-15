@@ -254,7 +254,12 @@ $(document).ready(function(){
             remaining_failures--;
             $("#fails").html(`Fails (${remaining_failures})`)
             keyboard_status[char] = 'wrong';
+            if (remaining_failures == 1) {
+                $("#fails").addClass("is-warning");
+            }
             if (remaining_failures <= 0) {
+                $("#fails").removeClass("is-warning");
+                $("#fails").addClass("is-danger");
                 end_game("Failed!");
             }
         }
@@ -310,6 +315,7 @@ $(document).ready(function(){
         if (remaining_hints <= 0) {
             $("#hint").prop("disabled", true);
         }
+        console.log('hint done');
     };
 
     const start_game = function() {
@@ -325,6 +331,8 @@ $(document).ready(function(){
         remaining_hints = 2;
         $("#hint").html(`Hint (${remaining_hints})`)
         $("#fails").html(`Fails (${remaining_failures})`)
+        $("#fails").removeClass("is-warning");
+        $("#fails").removeClass("is-danger");
 
         $("#hint").prop("disabled", false);
         $('.page').hide();
