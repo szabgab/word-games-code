@@ -300,8 +300,9 @@ $(document).ready(function(){
         });
     };
 
-    const hint = function() {
+    const hint = function(event) {
         console.log('hint');
+        event.stopImmediatePropagation();
         // find the first letter which is not know yet and display it (pretend the user clicked it)
         for (let ix = 0; ix < expected_letters.length; ix++) {
             if (expected_letters[ix] != matched_letters[ix]) {
@@ -315,7 +316,6 @@ $(document).ready(function(){
         if (remaining_hints <= 0) {
             $("#hint").prop("disabled", true);
         }
-        console.log('hint done');
     };
 
     const start_game = function() {
