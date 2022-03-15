@@ -58,7 +58,7 @@ def copy_data(root, environment, target_path):
             shutil.copy(categories_file, os.path.join(target_path, 'docs', 'data', 'categories', cfg['file']))
         except Exception as err:
             print(err)
-            del config["games"]["id"]
+            del config["games"][id]
             continue
         stats[id] = {
             "categories": len(categories.keys()),
