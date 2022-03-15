@@ -28,20 +28,18 @@ def copy_code(root, target_path):
 def copy_cname(target_path):
     shutil.copyfile(os.path.join(target_path, 'CNAME'), os.path.join(target_path, 'docs', 'CNAME'))
 
-def copy_config(root, environment, target_path):
-    shutil.copyfile(os.path.join(root,  f'{environment}.json'), os.path.join(target_path, 'docs', 'games.json'))
 
 # copy the data files from the various other repositories
 # check the data before copying them?
-def copy_data(target_path):
-    config_file = os.path.join(target_path, 'docs', 'games.json')
-    with open(config_file) as fh:
+def copy_data(root, environment, target_path):
+    original_config_file = os.path.join(root,  f'{environment}.json')
+    target_config_file = os.path.join(target_path, 'docs', 'games.json')
+
+    with open(original_config_file) as fh:
         config = json.load(fh)
+
     # print(config)
     config["meta"]["release_date"] = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
-    with open(config_file, "w") as fh:
-        json.dump(config, fh, sort_keys=True, indent=4, separators=(',', ': '), ensure_ascii=False)
 
     stats = {}
     cwd = os.getcwd()
@@ -61,6 +59,8 @@ def copy_data(target_path):
             shutil.copy(categories_file, os.path.join(target_path, 'docs', 'data', 'categories', cfg['file']))
         except Exception as err:
             print(err)
+            del config["games"]["id"]
+            continue
         stats[id] = {
             "categories": len(categories.keys()),
             "words": sum([len(words) for words in categories.values()]),
@@ -70,6 +70,8 @@ def copy_data(target_path):
         shutil.rmtree(tdir)
     with open(os.path.join(target_path, 'docs', 'data', 'stats.json'), "w") as fh:
         json.dump(stats, fh, sort_keys=True, indent=4, separators=(',', ': '), ensure_ascii=False)
+    with open(target_config_file, "w") as fh:
+        json.dump(config, fh, sort_keys=True, indent=4, separators=(',', ': '), ensure_ascii=False)
 
 
 main()
