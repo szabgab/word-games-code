@@ -51,6 +51,11 @@ $(document).ready(function(){
             "  asdfghjklöä",
             "    yxcvbnmß"
         ],
+        "eo": [
+            "ŝŭertĵuiopĝĥ",
+            "  asdfghjkl",
+            "    zĉcvbnm"
+        ],
     }
 
     const load_site_stats = function() {
