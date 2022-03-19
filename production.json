@@ -49,6 +49,14 @@
             "xname": "Espanyol",
             "source": "https://github.com/szabgab/word-games-ladino",
             "wikipedia": "https://lad.wikipedia.org/wiki/"
+        },
+        "eo": {
+            "file": "eo.json",
+            "keyboard_id": "eo",
+            "name": "Esperanto",
+            "xname": "Esperanto",
+            "source": "https://codeberg.org/frayoyo/word-games-esperanto",
+            "wikipedia": "https://eo.wikipedia.org/wiki/"
         }
     },
     "meta": {
