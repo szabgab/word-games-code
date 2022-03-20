@@ -10,7 +10,7 @@ def tidy(filename):
     with open(filename) as fh:
         data = json.load(fh)
     for category in data.keys():
-        data[category].sort()
+        data[category] = sorted(set(data[category]))
     with open(filename, 'w') as fh:
         json.dump(data, fh, sort_keys=True, indent=4, separators=(',', ': '), ensure_ascii=False)
 
